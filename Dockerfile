@@ -21,4 +21,4 @@ WORKDIR /usr/src/myapp
 ADD composer.json /usr/src/myapp/composer.json
 ADD composer.lock /usr/src/myapp/composer.lock
 ADD . /usr/src/myapp
-CMD [ "php", "artisan", "serve" ]
+RUN composer install --prefer-source --no-interaction
