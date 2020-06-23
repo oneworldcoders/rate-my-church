@@ -1,10 +1,38 @@
 version: '3'
 services:
 
+  db:
+    image: postgres
+    environment:
+      DB_DATABASE: "rate_my_church"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      DB_CONNECTION: "pgsql"
+      DB_HOST: "db"
+    ports:
+       - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
   app:
     build:
       context: .
       dockerfile: Dockerfile
+    depends_on:
+      - db
+    volumes:
+      - .:/usr/src/myapp
+    environment:
+      DB_DATABASE: "rate_my_church"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      DB_CONNECTION: "pgsql"
+      DB_HOST: "db"
+      DB_PORT: "5432"
     ports:
       - "80:8000"
     command: php artisan serve --host '0.0.0.0'
+
+
+volumes:
+  pgdata:
