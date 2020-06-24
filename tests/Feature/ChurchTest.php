@@ -37,7 +37,7 @@ class ChurchTest extends TestCase
 
   public function test_success_message_in_session()
   {
-		$this->response->assertSessionHas('success', 'church added succesfully');
+		$this->response->assertSessionHas('success', __('messages.add_success', ['item' => 'church']));
 	}
 
 	public function test_produces_error_with_a_missing_field()

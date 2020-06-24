@@ -15,7 +15,7 @@ class AdminChurchController extends Controller
      */
     public function index()
     {
-	return view('pages.admin.church.index');
+	    return view('pages.admin.church.index');
     }
 
     /**
@@ -36,11 +36,11 @@ class AdminChurchController extends Controller
      */
     public function store(Request $request)
     {
-	$churchRequest = new ChurchRequest;
-	$request->validate($churchRequest->rules());
-	Church::create($request->all());
-	return redirect()->route('church.index')
-			 ->with('success', 'church added succesfully');
+        $churchRequest = new ChurchRequest;
+        $request->validate($churchRequest->rules());
+        Church::create($request->all());
+        return redirect()->route('church.index')
+                         ->with('success', __('messages.add_success', ['item' => 'church']));
     }
 
     /**

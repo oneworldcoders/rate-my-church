@@ -10,7 +10,7 @@
 @endif
 
 <div>
-  <button class="btn btn-default" href="{{ route('church.create') }}">Add a new Church</button>
+  <a class="btn btn-primary" href="{{ route('church.create') }}">Add a new Church</a>
 </div>
 
 @endsection
