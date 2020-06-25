@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Church extends Model
 {
-    protected $table = 'church';
-    protected $fillable = ['name', 'location', 'religion'];
+    protected $guarded = [];
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
 }

@@ -14,7 +14,7 @@
 @endif
 
 <div class="col-xs-9 col-sm-9 col-md-9">
-  <form action="{{ route('church.store') }}" method="POST">
+  <form action="{{ route('churches.store') }}" method="POST">
     @csrf
     <fieldset class=""><legend>Add a Church</legend></fieldset>
     <div class="form-group">

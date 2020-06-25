@@ -17,7 +17,7 @@ class ChurchTest extends TestCase
 	{
 		parent::setUp();
 
-		$this->response = $this->post(route('church.store'), [
+		$this->response = $this->post(route('churches.store'), [
 	    'name' => 'Test Name',
 	    'location' => 'Test Location',
 	    'religion' => 'Test Religion'
@@ -32,7 +32,7 @@ class ChurchTest extends TestCase
 
 	public function test_redirects_to_index_after_submit()
 	{
-		$this->response->assertRedirect(route('church.index'));
+		$this->response->assertRedirect(route('churches.index'));
 	}
 
   public function test_success_message_in_session()
@@ -42,7 +42,7 @@ class ChurchTest extends TestCase
 
 	public function test_produces_error_with_a_missing_field()
   {
-		$response = $this->post(route('church.store'), [
+		$response = $this->post(route('churches.store'), [
 	    'name' => 'Test Name',
 	    'religion' => 'Religion'
 		]);
@@ -51,8 +51,8 @@ class ChurchTest extends TestCase
 	}
 
 	public function test_church_name_uniqueness()
-  {
-		$response = $this->post(route('church.store'), [
+	{
+		$response = $this->post(route('churches.store'), [
 	    'name' => 'Test Name',
 	    'location' => 'Location',
 	    'religion' => 'Religion'
@@ -61,9 +61,9 @@ class ChurchTest extends TestCase
 		$this->response->assertSessionHasErrors('name');
 	}
 
-	public function test_users_can_view_church_page()
+	public function test_users_can_view_the_create_church_page()
 	{
-		$response = $this->get('/church');
+		$response = $this->get('/churches/create');
 		$response->assertStatus(200);
 	}
 }
