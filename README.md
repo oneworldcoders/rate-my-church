@@ -38,10 +38,11 @@ docker-compose up
 ```
 docker ps
 ```
-* run migrations
+* run migrations and seeders
 ```
 docker exec -it ratemychurch_app_1 /bin/bash
 php artisan migrate
+php artisan db:seed
 ```
 
 ### Without Docker
@@ -63,9 +64,10 @@ DB_PASSWORD=
 composer install
 ```
 
-* run migrations
+* run migrations and seeders
 ```
 php artisan migrate
+php artisan db:seed
 ```
 
 ## Testing

@@ -13,23 +13,18 @@ class QuestionTest extends TestCase
   use RefreshDatabase;
 
   protected $response;
+  protected $church;
 	
   protected function setUp(): void
   {
     parent::setUp();
 
-    $church_response = $this->post(route('churches.store'), [
-      'id' => 1,
-      'name' => 'Test Name',
-      'location' => 'Test Location',
-      'religion' => 'Test Religion'
-    ]);
-    
+    $this->church = factory(Church::class)->create();
     $this->response = $this->post(route('questions.store'), [
       'title' => 'Test Title',
       'description' => 'Test Description',
       'type' => 'Test Type',
-      'church_id' => 1
+      'church_id' => $this->church->id
     ]);
   }
 
@@ -54,7 +49,7 @@ class QuestionTest extends TestCase
     $response = $this->post(route('questions.store'), [
       'description' => 'Test Description',
       'type' => 'Test Type',
-      'church_id' => 1
+      'church_id' => $this->church->id
     ]);
 
     $response->assertSessionHasErrors('title');
@@ -65,7 +60,7 @@ class QuestionTest extends TestCase
     $response = $this->post(route('questions.store'), [
       'title' => 'Test Test',
       'type' => 'Test Type',
-      'church_id' => 1
+      'church_id' => $this->church->id
     ]);
 
     $response->assertSessionHasErrors('description');
@@ -76,7 +71,7 @@ class QuestionTest extends TestCase
     $response = $this->post(route('questions.store'), [
       'title' => 'Test Test',
       'description' => 'Test Description',
-      'church_id' => 1
+      'church_id' => $this->church->id
     ]);
 
     $response->assertSessionHasErrors('type');

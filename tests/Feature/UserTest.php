@@ -13,33 +13,21 @@ class UserTest extends TestCase
   use RefreshDatabase;
 
   protected $response;
+  protected $church;
 	
   protected function setUp(): void
   {
     parent::setUp();
-
-    $this->post(route('churches.store'), [
-      'id' => 1,
-      'name' => 'Test Name',
-      'location' => 'Test Location',
-      'religion' => 'Test Religion'
-    ]);
     
+    $this->church = factory(Church::class)->create();
     $this->response = $this->post(route('users.store'), [
-      'id' => 1,
       'name' => 'Test Name',
       'email' => 'email@example.com',
       'password' => 'password',
-      'church_id' => 1
+      'church_id' => $this->church->id
     ]);
+      
 
-    $this->post(route('users.store'), [
-      'id' => 2,
-      'name' => 'Test Name 2',
-      'email' => 'email2@example.com',
-      'password' => 'password',
-      'church_id' => 1
-    ]);
   }
 
 
@@ -113,16 +101,14 @@ class UserTest extends TestCase
 
   public function test_user_belongs_to_church(){
     $user = User::find(1);
-    $church = Church::find(1);
-    $this->assertEquals($church->name, $user->church->name);
+    $this->assertEquals($this->church->name, $user->church->name);
   }
 
   public function test_church_has_multiple_users(){
-    $user = User::find(1);
-    $user2 = User::find(2);
-    $church = Church::find(1);
-    $this->assertEquals($church->users[0]->name, $user->name);
-    $this->assertEquals($church->users[1]->name, $user2->name);
+    $user_count = 2;
+    $church = factory(Church::class)->create();
+    $users = factory(User::class, $user_count)->create(['church_id' => $church->id]);
+    $this->assertCount($user_count, $church->users);
   }
 
   public function test_user_page_receives_all_churches(){
