@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg62-turbo-dev \
     libfreetype6-dev \
+    libpq-dev \
     locales \
     zip \
     jpegoptim optipng pngquant gifsicle \
@@ -12,6 +13,8 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl
+
+RUN docker-php-ext-install pdo pdo_pgsql
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 

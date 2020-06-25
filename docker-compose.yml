@@ -1,10 +1,27 @@
 version: '3'
 services:
 
+  db:
+    image: postgres
+    env_file: .env
+    ports:
+       - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
   app:
     build:
       context: .
       dockerfile: Dockerfile
+    depends_on:
+      - db
+    volumes:
+      - .:/usr/src/myapp
+    env_file: .env
     ports:
       - "80:8000"
     command: php artisan serve --host '0.0.0.0'
+
+
+volumes:
+  pgdata:
