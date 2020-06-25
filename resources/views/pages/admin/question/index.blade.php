@@ -1,4 +1,4 @@
-@extends('pages.admin.church.layout')
+@extends('pages.admin.question.layout')
 
 @section('content')
 
@@ -10,7 +10,7 @@
 @endif
 
 <div>
-  <a class="btn btn-primary" href="{{ route('churches.create') }}">Add a new Church</a>
+  <a class="btn btn-primary" href="{{ route('questions.create') }}">Add a new Question</a>
 </div>
 
 @endsection

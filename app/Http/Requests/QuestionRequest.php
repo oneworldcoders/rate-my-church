@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ChurchRequest extends FormRequest
+class QuestionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,10 @@ class ChurchRequest extends FormRequest
     public function rules()
     {
         return [
-	    'name' => 'required|unique:churches,name',
-	    'location' => 'required',
-	    'religion' => 'required'
+            'title' => 'required',
+            'description' => 'required',
+            'type' => 'required',
+            'church_id' => 'required'
         ];
     }
 }
