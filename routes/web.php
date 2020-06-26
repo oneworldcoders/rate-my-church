@@ -20,3 +20,7 @@ Route::get('/', function () {
 Route::resource('churches', 'AdminChurchController');
 Route::resource('questions', 'AdminQuestionController');
 Route::resource('users', 'UserController');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
