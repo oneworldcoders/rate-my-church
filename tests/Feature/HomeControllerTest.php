@@ -9,6 +9,8 @@ use App\User;
 
 class HomeControllerTest extends TestCase
 {
+  use RefreshDatabase;
+  
   public function test_home_page_redirects_to_login()
   {
     $response = $this->get(route('home'));
