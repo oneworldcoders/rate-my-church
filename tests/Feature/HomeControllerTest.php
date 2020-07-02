@@ -33,16 +33,4 @@ class HomeControllerTest extends TestCase
     $response->assertStatus(200);
   }
 
-  public function test_church_in_passed_to_the_view()
-  {
-    $response = $this->actingAs($this->user)->get(route('home'));
-    $response->assertViewHas('church_name', $this->church->name);
-  }
-
-  public function test_questions_are_passed_to_the_view()
-  {
-    $response = $this->actingAs($this->user)->get(route('home'));
-    $response->assertViewHas('questions', $this->church->questions);
-  }
-  
 }
