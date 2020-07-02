@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Church;
 use Illuminate\Http\Request;
-use App\Http\Requests\ChurchRequest;
+use App\Question;
+use App\Church;
+use App\Http\Requests\QuestionRequest;
 
-class AdminChurchController extends Controller
+class QuestionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +16,7 @@ class AdminChurchController extends Controller
      */
     public function index()
     {
-	    return view('pages.admin.church.index');
+        //
     }
 
     /**
@@ -25,7 +26,8 @@ class AdminChurchController extends Controller
      */
     public function create()
     {
-        return view('pages.admin.church.create');
+        $churches = Church::all();
+        return view('pages.admin.question.create', compact('churches'));
     }
 
     /**
@@ -34,20 +36,20 @@ class AdminChurchController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ChurchRequest $request)
+    public function store(QuestionRequest $request)
     {
-        Church::create($request->all());
-        return redirect()->route('churches.index')
-                         ->with('success', __('messages.add_success', ['item' => 'church']));
+        Question::create($request->all());
+        return redirect()->action('AdminController@index')
+                         ->with('success', __('messages.add_success', ['item' => 'question']));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Church  $church
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Church $church)
+    public function show($id)
     {
         //
     }
@@ -55,10 +57,10 @@ class AdminChurchController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Church  $church
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Church $church)
+    public function edit($id)
     {
         //
     }
@@ -67,10 +69,10 @@ class AdminChurchController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Church  $church
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Church $church)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -78,10 +80,10 @@ class AdminChurchController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Church  $church
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Church $church)
+    public function destroy($id)
     {
         //
     }

@@ -32,7 +32,7 @@ class ChurchTest extends TestCase
 
 	public function test_redirects_to_index_after_submit()
 	{
-		$this->response->assertRedirect(route('churches.index'));
+		$this->response->assertRedirect(route('admin'));
 	}
 
   public function test_success_message_in_session()

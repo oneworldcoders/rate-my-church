@@ -17,6 +17,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('churches', 'AdminChurchController');
-Route::resource('questions', 'AdminQuestionController');
+Route::resource('churches', 'ChurchController');
+Route::resource('questions', 'QuestionController');
 Route::resource('users', 'UserController');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/admin', 'AdminController@index')->name('admin'); 
