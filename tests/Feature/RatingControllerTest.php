@@ -57,5 +57,23 @@ class RatingControllerTest extends TestCase
     public function test_adds_ratings_for_a_question()
     {
         $this->assertEquals($this->rating, $this->user->questions->find($this->question->id)->pivot->rating);
+    } 
+
+    public function test_user_can_view_response_page()
+    {
+        $response = $this->actingAs($this->user)->get(route('ratings.index'));
+        $response->assertStatus(200);
+    }
+
+    public function test_response_page_contains_ratings()
+    {
+        $response = $this->actingAs($this->user)->get(route('ratings.index'));
+        $response->assertViewHas('ratings', $this->user->questions);
+    }
+
+    public function test_response_page_contains_church_name()
+    {
+        $response = $this->actingAs($this->user)->get(route('ratings.index'));
+        $response->assertViewHas('church_name', $this->church->name);
     }
 }
