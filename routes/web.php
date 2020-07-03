@@ -20,6 +20,7 @@ Route::get('/', function () {
 Route::resource('churches', 'ChurchController');
 Route::resource('questions', 'QuestionController');
 Route::resource('users', 'UserController');
+Route::resource('ratings', 'RatingController');
 
 Auth::routes();
 

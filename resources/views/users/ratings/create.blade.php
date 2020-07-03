@@ -5,29 +5,31 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
 
-            @if ($church_name)
+            @if ($questions)
 
                 <br></br>
                 <div class="card">
                     <div class="card-header">{{ $church_name }}</div>
 
                     <div class="card-body">
-                        <form method="POST">
+                        <form action="{{ route('ratings.store') }}" method="POST">
                             @csrf
 
                             @foreach ($questions as $question)
                                 <div class="form-group row">
                                     <label for="  {{ $question->id }} " class="col-md-4 col-form-label text-md-right">{{ __($question->description ) }}</label>
                                     <div class="col-md-6">
-                                        <input class="radio-inline m-2" type="radio" name=" {{ $question->id }} " value="1">1
-                                        <input class="radio-inline m-2" type="radio" name=" {{ $question->id }} " value="2">2
-                                        <input class="radio-inline m-2" type="radio" name=" {{ $question->id }} " value="3">3
-                                        <input class="radio-inline m-2" type="radio" name=" {{ $question->id }} " value="4">4
-                                        <input class="radio-inline m-2" type="radio" name=" {{ $question->id }} " value="5">5
+                                        <input class="radio-inline m-2" type="radio" name="{{$question->id}}" value="1" required>1
+                                        <input class="radio-inline m-2" type="radio" name="{{$question->id}}" value="2">2
+                                        <input class="radio-inline m-2" type="radio" name="{{$question->id}}" value="3">3
+                                        <input class="radio-inline m-2" type="radio" name="{{$question->id}}" value="4">4
+                                        <input class="radio-inline m-2" type="radio" name="{{$question->id}}" value="5">5
                                         
                                     </div>
                                 </div>
                             @endforeach
+
+                            <!-- <input type="hidden" name="questions" value="{{ $questions }}"> -->
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">
@@ -51,7 +53,7 @@
                             </div>
                         @endif
 
-                        You are logged in!
+                        No Questions yet for {{ $church_name }}}
                     </div>
                 </div>
 
