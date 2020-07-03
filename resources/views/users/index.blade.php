@@ -24,6 +24,7 @@
 
                     <div class="offset-md-4">
                       <a class="btn btn-primary" href="{{ route('ratings.create') }}">Rate Church</a>
+                      <a id="rate-button" class="btn btn-primary" href="{{ route('ratings.index') }}">View Ratings</a>
                     </div>
                 </div>
             </div>

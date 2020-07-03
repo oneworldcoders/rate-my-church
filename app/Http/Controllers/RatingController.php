@@ -8,6 +8,18 @@ use App\Question;
 
 class RatingController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
+    public function index()
+    {
+        $user = auth()->user();
+        $church_name = $user->church->name;
+        $ratings = $user->questions;
+        return view('users.ratings.index', compact('church_name', 'ratings'));
+    }
 
     public function create()
     {
