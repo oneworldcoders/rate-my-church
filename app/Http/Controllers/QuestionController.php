@@ -9,6 +9,11 @@ use App\Http\Requests\QuestionRequest;
 
 class QuestionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admin_auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
