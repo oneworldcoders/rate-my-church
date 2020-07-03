@@ -24,6 +24,8 @@ class HomeController extends Controller
     public function index()
     {
         $user = auth()->user();
-        return view('home', compact('user'));
+        $church_name = $user->church->name;
+        $questions = $user->church->questions;
+        return view('home', compact('church_name', 'questions'));
     }
 }

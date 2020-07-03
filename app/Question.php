@@ -12,5 +12,10 @@ class Question extends Model
     {
         return $this->belongsTo(Church::class);
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class)->withPivot('rating');
+    }
     
 }
