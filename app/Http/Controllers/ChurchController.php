@@ -17,7 +17,7 @@ class ChurchController extends Controller
     public function index()
     {
         $churches = Church::all();
-        return view('pages.admin.church.index', compact('churches'));
+        return view('admin.church.index', compact('churches'));
     }
 
     /**
@@ -27,7 +27,7 @@ class ChurchController extends Controller
      */
     public function create()
     {
-        return view('pages.admin.church.create');
+        return view('admin.church.create');
     }
 
     /**
@@ -51,7 +51,7 @@ class ChurchController extends Controller
      */
     public function show(Church $church)
     {
-        return view('pages.admin.church.show', compact('church'));
+        return view('admin.church.show', compact('church'));
     }
 
     /**
