@@ -11,7 +11,6 @@
 
         <div class="card-body">
           <div class="text-md-center">{{ __($question->description) }}</div>
-
           <ul class="list-group list-group-flush">
             @foreach ($question->users as $user)
               <li class="list-group-item">
