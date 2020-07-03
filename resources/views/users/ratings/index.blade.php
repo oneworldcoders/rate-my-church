@@ -8,9 +8,11 @@
             <div class="card-header">{{ __('Ratings for '.$church_name) }}</div>
 
             <div class="card-body">
-              @foreach ($ratings as $rating)
-                <li> {{ $rating->description }} - {{ $rating->pivot->rating }}</li>
-              @endforeach
+              <ul class="list-group list-group-flush">
+                @foreach ($ratings as $rating)
+                  <li class="list-group-item"> {{ $rating->description }} - {{ $rating->pivot->rating }}</li>
+                @endforeach
+              </ul>
 
             </div>
 
