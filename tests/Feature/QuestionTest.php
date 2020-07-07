@@ -7,6 +7,7 @@ use Tests\TestCase;
 
 use App\Church;
 use App\Question;
+use App\User;
 
 class QuestionTest extends TestCase
 {
@@ -14,13 +15,14 @@ class QuestionTest extends TestCase
 
   protected $response;
   protected $church;
-	
+  protected $admin;
+
   protected function setUp(): void
   {
     parent::setUp();
-
+    $this->admin = factory(User::class)->create(['is_admin' => 1]);
     $this->church = factory(Church::class)->create();
-    $this->response = $this->post(route('questions.store'), [
+    $this->response = $this->actingAs($this->admin)->post(route('questions.store'), [
       'title' => 'Test Title',
       'description' => 'Test Description',
       'type' => 'Test Type',
@@ -28,6 +30,12 @@ class QuestionTest extends TestCase
     ]);
   }
 
+  public function test_users_get_redirected_to_home()
+  {
+    $user = factory(User::class)->create();
+    $response = $this->actingAs($user)->get(route('questions.index'));
+    $response->assertRedirect(route('home'));
+  }
 
   public function test_a_question_can_be_added_through_the_form()
   {
