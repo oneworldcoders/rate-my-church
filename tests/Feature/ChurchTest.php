@@ -32,7 +32,7 @@ class ChurchTest extends TestCase
 
 	public function test_redirects_to_index_after_submit()
 	{
-		$this->response->assertRedirect(route('admin'));
+		$this->response->assertRedirect(route('churches.index'));
 	}
 
   public function test_success_message_in_session()
@@ -65,5 +65,32 @@ class ChurchTest extends TestCase
 	{
 		$response = $this->get('/churches/create');
 		$response->assertStatus(200);
+	}
+
+	public function test_church_index_route_renders_church_index_view()
+	{
+		$response = $this->get(route('churches.index'));
+		$response->assertViewIs('pages.admin.church.index');
+	}
+
+	public function test_church_index_route_contains_all_churches()
+	{
+		$churches = factory(Church::class, 3)->create();
+		$response = $this->get(route('churches.index'));
+		$response->assertViewHas('churches');
+	}
+
+	public function test_church_show_route_renders_church_show_view()
+	{
+		$church = factory(Church::class)->create();
+		$response = $this->get(route('churches.show', $church));
+		$response->assertViewIs('pages.admin.church.show');
+	}
+
+	public function test_church_show_route_contains_a_church()
+	{
+		$church = factory(Church::class)->create();
+		$response = $this->get(route('churches.show', $church));
+		$response->assertViewHas('church', $church);
 	}
 }
