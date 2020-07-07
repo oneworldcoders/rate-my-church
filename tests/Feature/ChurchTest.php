@@ -70,7 +70,7 @@ class ChurchTest extends TestCase
 	public function test_church_index_route_renders_church_index_view()
 	{
 		$response = $this->get(route('churches.index'));
-		$response->assertViewIs('pages.admin.church.index');
+		$response->assertViewIs('admin.church.index');
 	}
 
 	public function test_church_index_route_contains_all_churches()
@@ -84,7 +84,7 @@ class ChurchTest extends TestCase
 	{
 		$church = factory(Church::class)->create();
 		$response = $this->get(route('churches.show', $church));
-		$response->assertViewIs('pages.admin.church.show');
+		$response->assertViewIs('admin.church.show');
 	}
 
 	public function test_church_show_route_contains_a_church()

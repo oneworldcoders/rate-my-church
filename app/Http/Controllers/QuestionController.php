@@ -27,7 +27,7 @@ class QuestionController extends Controller
     public function create()
     {
         $churches = Church::all();
-        return view('pages.admin.question.create', compact('churches'));
+        return view('admin.question.create', compact('churches'));
     }
 
     /**
@@ -51,7 +51,7 @@ class QuestionController extends Controller
      */
     public function show(Question $question)
     {
-        return view('pages.admin.question.show', compact('question'));
+        return view('admin.question.show', compact('question'));
     }
 
     /**

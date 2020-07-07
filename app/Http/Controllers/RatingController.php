@@ -32,7 +32,8 @@ class RatingController extends Controller
 
     public function store(Request $request, RatingsService $service)
     {
-        $service->updateRatings($request);
+        $user = auth()->user();
+        $service->updateRatings($user, $request);
         return redirect()->action('HomeController@index')
                          ->with('success', __('messages.add_success', ['item' => 'ratings']));
     }
