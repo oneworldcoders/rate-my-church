@@ -7,15 +7,15 @@
     <div class="col-md-8">
 
       <div class="card">
-        <div class="card-header">{{ __($question->church->name) }}</div>
+        <div class="card-header">{{ __('$ratings->first()->church->name') }}</div>
 
         <div class="card-body">
-          <div class="text-md-center">{{ __($question->description) }}</div>
+          <div class="text-md-center">{{ __('$ratings->first()->question->description') }}</div>
           <ul class="list-group list-group-flush">
-            @foreach ($question->users as $user)
+            @foreach ($ratings as $rating)
               <li class="list-group-item">
                 <a>
-                  {{ $user->name }} - {{ $user->pivot->rating }}
+                  {{ $rating->user->name }} - {{ $rating->rating }}
                 </a>
               </li>
             @endforeach

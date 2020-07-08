@@ -2,14 +2,15 @@
 
 namespace App\Services;
 
+use App\QuestionUser;
+  
 class RatingsService {
 
-  public function updateRatings($user, $request)
+  public function updateRatings($user, $questions, $request, $model)
   {
-    $questions = $user->church->questions;
     foreach($questions as $question)
     {
-      $user->questions()->attach($question, ['rating' => $request->input($question->id)]);
+      $model::create(['user_id' => $user->id, 'question_id' => $question->id, 'rating' => $request->input($question->id)]);
     }
   }
 }

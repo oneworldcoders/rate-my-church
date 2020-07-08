@@ -42,8 +42,14 @@ class User extends Authenticatable
         return $this->belongsTo(Church::class);
     }
 
-    public function questions()
+    //public function questions()
+    //{
+    //    return $this->belongsToMany(Question::class)->withPivot('rating');
+    //}
+
+    public function ratings()
     {
-        return $this->belongsToMany(Question::class)->withPivot('rating');
+      return $this->hasMany(QuestionUser::class);
     }
+
 }

@@ -8,36 +8,37 @@ use Tests\TestCase;
 
 use App\Question;
 use App\User;
+use App\QuestionUser;
 
 class QuestionUserTest extends TestCase
 {
-    use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_user_can_have_multiple_questions()
+  use RefreshDatabase;
+  /**
+   * A basic feature test example.
+   *
+   * @return void
+   */
+  public function test_user_can_have_multiple_ratings()
+  {
+    $user = factory(User::class)->create();
+    $questions = factory(Question::class, 2)->create();
+
+    foreach ($questions as $question)
     {
-        $user = factory(User::class)->create();
-        $questions = factory(Question::class, 2)->create();
-
-        foreach ($questions as $question)
-        {
-            $user->questions()->attach($question, ['rating' => 1]);
-        }
-        $this->assertCount(2, $user->questions);
+      QuestionUser::create(['user_id' => $user->id, 'question_id' => $question->id, 'rating' => 1]);
     }
+    $this->assertCount(2, $user->ratings);
+  }
 
-    public function test_question_can_have_multiple_users()
+  public function test_question_can_be_rated_by_multiple_users()
+  {
+    $question = factory(Question::class)->create();
+    $users = factory(User::class, 2)->create();
+
+    foreach ($users as $user)
     {
-        $question = factory(Question::class)->create();
-        $users = factory(User::class, 2)->create();
-
-        foreach ($users as $user)
-        {
-            $question->users()->attach($user, ['rating' => 1]);
-        }
-        $this->assertCount(2, $question->users);
+      QuestionUser::create(['user_id' => $user->id, 'question_id' => $question->id, 'rating' => 1]);
     }
+    $this->assertCount(2, $question->ratings);
+  }
 }
