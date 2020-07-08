@@ -1,7 +1,5 @@
 <?php
 
-use Laracasts\Presenter\Presenter;
-
 namespace App\Presenters;
 
 trait RatingPresenter {

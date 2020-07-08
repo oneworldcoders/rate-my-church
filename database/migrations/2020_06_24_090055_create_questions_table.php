@@ -19,6 +19,7 @@ class CreateQuestionsTable extends Migration
             $table->string('title');
             $table->string('type');
             $table->string('description');
+            $table->float('average_rating', 8, 1)->default(0.0);
             $table->timestamps();
         });
     }
