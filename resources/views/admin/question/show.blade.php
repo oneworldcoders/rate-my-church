@@ -10,7 +10,7 @@
         <div class="card-header">{{ __($church_name) }}</div>
 
         <div class="card-body">
-          <div class="text-md-center">{{ __($question->description) }}</div>
+          <div class="text-md-center">{{ __($question->description) }}  - ({{ __($question->average_rating) }})</div>
           @if ($ratings)
             <ul class="list-group list-group-flush">
               @foreach ($ratings as $rating)

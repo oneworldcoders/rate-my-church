@@ -28,10 +28,10 @@ class RatingsServiceTest extends TestCase
 
     $user = factory(User::class)->create();
     $this->questions = factory(Question::class, 3)->create();
-    $request = ["1"=>1, "2"=>2, "3"=>5];
+    $data = ["1"=>1, "2"=>2, "3"=>5];
     $ratingModel = new Rating;
     $service = new RatingsService;
-    $service->updateRatings($user, $this->questions, $request, $ratingModel);
+    $service->updateRatings($user, $this->questions, $data, $ratingModel);
 
   }
 

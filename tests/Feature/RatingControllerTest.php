@@ -8,6 +8,7 @@ use Tests\TestCase;
 
 use App\User;
 use App\Question;
+use App\Rating;
 
 class RatingControllerTest extends TestCase
 {
@@ -18,7 +19,7 @@ class RatingControllerTest extends TestCase
   protected $question;
   protected $get_response;
   protected $post_response;
-  protected $rating;
+  protected $score;
 
   protected function setUp(): void
   {
@@ -28,9 +29,9 @@ class RatingControllerTest extends TestCase
     $this->question = factory(Question::class)->create(['church_id' => $this->church]);
     $this->get_response = $this->actingAs($this->user)->get(route('ratings.create'));
 
-    $this->rating = 1;
+    $this->score = 1;
     $this->post_response = $this->actingAs($this->user)->post(route('ratings.store'), [
-      $this->question->id.'' => $this->rating,
+      $this->question->id.'' => $this->score,
     ]);
   }
 
@@ -56,7 +57,7 @@ class RatingControllerTest extends TestCase
 
   public function test_adds_ratings_for_a_question()
   {
-    $this->assertEquals($this->rating, $this->user->ratings->find($this->question->id)->score);
+    $this->assertEquals($this->score, $this->user->ratings->find($this->question->id)->score);
   } 
 
   public function test_user_can_view_response_page()
@@ -82,6 +83,13 @@ class RatingControllerTest extends TestCase
     $question = factory(Question::class)->create(['church_id' => $this->church->id]);
     $response = $this->get(route('ratings.show', $question));
     $response->assertViewHas('ratings', $question->ratings);
+  }
+
+  public function test_average_rating_gets_updated()
+  {
+    $rating = Rating::find(['question_id'=>$this->question->id]);
+    $updated_question = Question::find($this->question->id);
+    $this->assertEquals($this->score, $updated_question->average_rating);
   }
 
 }
