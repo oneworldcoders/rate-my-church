@@ -33,4 +33,10 @@ class HomeControllerTest extends TestCase
     $response->assertStatus(200);
   }
 
+  public function test_home_view_is_rendered()
+  {
+    $response = $this->actingAs($this->user)->get(route('home'));
+    $response->assertViewIs('home.index');
+  }
+
 }

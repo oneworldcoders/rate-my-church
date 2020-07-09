@@ -11,7 +11,7 @@ class QuestionController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('admin_auth');
+        $this->middleware('auth');
     }
 
     /**
@@ -31,6 +31,7 @@ class QuestionController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Question::class);
         $churches = Church::all();
         return view('admin.question.create', compact('churches'));
     }
