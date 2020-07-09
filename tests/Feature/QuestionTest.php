@@ -107,10 +107,4 @@ class QuestionTest extends TestCase
     $response->assertStatus(200);
   }
 
-  public function test_show_questions_page_receives_a_question()
-  {
-    $question = factory(Question::class)->create();
-    $response = $this->get(route('questions.show', $question));
-    $response->assertViewHas('question', $question);
-  }
-}
+ }

@@ -22,7 +22,7 @@
                     </a>
                   </div>
                   <div >
-                    <a class="btn btn-secondary" href="{{ route('questions.show', $question) }}">View Responses</a>
+                    <a class="btn btn-secondary" href="{{ route('ratings.show', $question) }}">View Responses</a>
                   </div>
                 </div>
               </li>
