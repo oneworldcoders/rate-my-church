@@ -13,15 +13,8 @@ class Question extends Model
     return $this->belongsTo(Church::class);
   }
 
- // public function users()
- // {
- //   return $this->belongsToMany(User::class)
- //               ->withPivot('rating')
- //               ->using(QuestionUser::class);
- // }
-
   public function ratings()
   {
-    return $this->hasMany(QuestionUser::class);
+    return $this->hasMany(Rating::class);
   }
 }

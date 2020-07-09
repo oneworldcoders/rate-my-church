@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Question;
-use App\QuestionUser;
+use App\Rating;
 use App\Services\RatingsService;
 
 class RatingController extends Controller
@@ -35,15 +35,19 @@ class RatingController extends Controller
   {
     $user = auth()->user();
     $questions = $user->church->questions;
-    $model = new QuestionUser;
-    $service->updateRatings($user, $questions, $request, $model);
+    $data = $request->input();
+    $model = new Rating;
+    $service->updateRatings($user, $questions, $data, $model);
     return redirect()->action('HomeController@index')
                      ->with('success', __('messages.add_success', ['item' => 'ratings']));
   }
 
-  public function show(Question $question)
+  public function show($question_id)
   {
+    $question = Question::find($question_id);
     $ratings = $question->ratings;
-    return view('admin.question.show', compact('ratings'));
+    $church_name = $question->church->name;
+
+    return view('admin.question.show', compact('ratings', 'church_name', 'question'));
   }
 }

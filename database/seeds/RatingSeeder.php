@@ -1,10 +1,12 @@
 <?php
 
 use Illuminate\Database\Seeder;
+
 use \App\Question;
 use \App\User;
+use \App\Rating;
 
-class QuestionUserSeeder extends Seeder
+class RatingSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,7 +17,6 @@ class QuestionUserSeeder extends Seeder
     {
         $user = factory(User::class)->create();
         $question = factory(Question::class)->create();
-        $question->users()->attach($user, ['rating' => 1]);
+        factory(Rating::class)->create(['user_id'=>$user, 'question_id'=>$question]);
     }
 }
-

@@ -10,7 +10,7 @@
             <div class="card-body">
               <ul class="list-group list-group-flush">
                 @foreach ($ratings as $rating)
-                  <li class="list-group-item"> {{ $rating->question->description }} - {{ $rating->rating }}</li>
+                  <li class="list-group-item"> {{ $rating->description }} - {{ $rating->score }}</li>
                 @endforeach
               </ul>
 

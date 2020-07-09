@@ -8,9 +8,9 @@ use Tests\TestCase;
 
 use App\Question;
 use App\User;
-use App\QuestionUser;
+use App\Rating;
 
-class QuestionUserTest extends TestCase
+class RatingModelTest extends TestCase
 {
   use RefreshDatabase;
   /**
@@ -25,7 +25,7 @@ class QuestionUserTest extends TestCase
 
     foreach ($questions as $question)
     {
-      QuestionUser::create(['user_id' => $user->id, 'question_id' => $question->id, 'rating' => 1]);
+      Rating::create(['user_id' => $user->id, 'question_id' => $question->id, 'score' => 1]);
     }
     $this->assertCount(2, $user->ratings);
   }
@@ -37,7 +37,7 @@ class QuestionUserTest extends TestCase
 
     foreach ($users as $user)
     {
-      QuestionUser::create(['user_id' => $user->id, 'question_id' => $question->id, 'rating' => 1]);
+      Rating::create(['user_id' => $user->id, 'question_id' => $question->id, 'score' => 1]);
     }
     $this->assertCount(2, $question->ratings);
   }

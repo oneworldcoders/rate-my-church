@@ -56,7 +56,7 @@ class RatingControllerTest extends TestCase
 
   public function test_adds_ratings_for_a_question()
   {
-    $this->assertEquals($this->rating, $this->user->ratings->find($this->question->id)->rating);
+    $this->assertEquals($this->rating, $this->user->ratings->find($this->question->id)->score);
   } 
 
   public function test_user_can_view_response_page()

@@ -7,19 +7,23 @@
     <div class="col-md-8">
 
       <div class="card">
-        <div class="card-header">{{ __('$ratings->first()->church->name') }}</div>
+        <div class="card-header">{{ __($church_name) }}</div>
 
         <div class="card-body">
-          <div class="text-md-center">{{ __('$ratings->first()->question->description') }}</div>
-          <ul class="list-group list-group-flush">
-            @foreach ($ratings as $rating)
-              <li class="list-group-item">
-                <a>
-                  {{ $rating->user->name }} - {{ $rating->rating }}
-                </a>
-              </li>
-            @endforeach
-          </ul>
+          <div class="text-md-center">{{ __($question->description) }}</div>
+          @if ($ratings)
+            <ul class="list-group list-group-flush">
+              @foreach ($ratings as $rating)
+                <li class="list-group-item">
+                  <a>
+                    {{ $rating->user_name }} - {{ $rating->score }}
+                  </a>
+                </li>
+              @endforeach
+            </ul>
+          @else
+            <p>No Ratings</p>
+          @endif
         </div>
       </div>
 

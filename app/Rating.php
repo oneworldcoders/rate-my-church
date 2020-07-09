@@ -4,9 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+// use Laracasts\Presenter\PresentableTrait;
 
-class QuestionUser extends Model
+use App\Presenters\RatingPresenter;
+
+class Rating extends Model
 {
+  use RatingPresenter;
+
   protected $guarded = [];
 
   public function user()
