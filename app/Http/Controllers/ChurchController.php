@@ -9,6 +9,11 @@ use App\Http\Requests\ChurchRequest;
 
 class ChurchController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admin_auth');
+    }
+
     /**
      * Display a listing of the resource.
      *

@@ -6,28 +6,39 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 use App\Church;
+use App\User;
 
 class ChurchTest extends TestCase
 {
 	use RefreshDatabase;
 
-	protected $response;
+  protected $response;
+  protected $admin;
+  protected $church_id;
 	
 	protected function setUp(): void
 	{
 		parent::setUp();
-
-		$this->response = $this->post(route('churches.store'), [
+    $this->admin = factory(User::class)->create(['is_admin' => 1]);
+    $this->response = $this->actingAs($this->admin)->post(route('churches.store'), [
+      'id' => $this->church_id,
 	    'name' => 'Test Name',
 	    'location' => 'Test Location',
 	    'religion' => 'Test Religion'
 		]);
-	}
+  }
 
+  public function test_non_admin_get_redirected_to_home()
+  {
+    $user = factory(User::class)->create();
+    $response = $this->actingAs($user)->get(route('churches.index'));
+    $response->assertRedirect(route('home'));
+  }
 
   public function test_a_church_can_be_added_through_the_form()
   {
-		$this->assertCount(1, Church::all());
+    $church = Church::find(['id' => $this->church_id]);
+		$this->assertNotNull($church);
   }
 
 	public function test_redirects_to_index_after_submit()
