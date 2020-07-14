@@ -18,7 +18,7 @@ class RatingPolicy
    */
   public function viewAny(User $user)
   {
-    //
+    return $this->hasRated($user);
   }
 
   /**
@@ -41,7 +41,7 @@ class RatingPolicy
    */
   public function create(User $user)
   {
-    return in_array('rate_questions', $user->roles->pluck('name')->all());
+    return in_array('rate_questions', $user->roles->pluck('name')->all()) and !$this->hasRated($user);
   }
 
   /**
@@ -90,5 +90,10 @@ class RatingPolicy
   public function forceDelete(User $user, Rating $rating)
   {
     //
+  }
+
+  protected function hasRated(User $user)
+  {
+    return boolval(Rating::where(['user_id'=>$user->id])->get()->all());
   }
 }

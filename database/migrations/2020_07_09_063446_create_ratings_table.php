@@ -17,6 +17,7 @@ class CreateRatingsTable extends Migration
             $table->id();
             $table->string('question_id');
             $table->string('user_id');
+            $table->unique(['question_id', 'user_id']);
             $table->unsignedInteger('score');
             $table->timestamps();
         });
