@@ -21,6 +21,7 @@ Route::resource('churches', 'ChurchController');
 Route::resource('questions', 'QuestionController');
 Route::resource('users', 'UserController');
 Route::resource('ratings', 'RatingController');
+Route::resource('permissions', 'PermissionController');
 
 Auth::routes();
 

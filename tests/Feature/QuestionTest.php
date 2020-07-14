@@ -8,6 +8,7 @@ use Tests\TestCase;
 use App\Church;
 use App\Question;
 use App\User;
+use App\Role;
 
 class QuestionTest extends TestCase
 {
@@ -30,11 +31,27 @@ class QuestionTest extends TestCase
     ]);
   }
 
-  public function test_users_get_redirected_to_home()
+  public function test_users_without_permission_cannot_create_questions()
   {
     $user = factory(User::class)->create();
-    $response = $this->actingAs($user)->get(route('questions.index'));
-    $response->assertRedirect(route('home'));
+    $response = $this->actingAs($user)->get(route('questions.create'));
+    $response->assertForbidden();
+  }
+
+  public function test_users_with_permission_can_create_questions()
+  {
+    $user = factory(User::class)->create();
+    $role = Role::create(['name'=>'add_questions', 'description'=>'']);
+    $user->roles()->attach($role);
+    $response = $this->actingAs($user)->get(route('questions.create'));
+    $response->assertStatus(200);
+  }
+
+  public function test_grants_admin_to_create_questions()
+  {
+		$user = factory(User::class)->create(['is_admin' => 1]);
+		$response = $this->actingAs($user)->get(route('questions.create'));
+		$response->assertStatus(200);
   }
 
   public function test_a_question_can_be_added_through_the_form()

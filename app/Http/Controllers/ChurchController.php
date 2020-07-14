@@ -11,7 +11,7 @@ class ChurchController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('admin_auth');
+        $this->middleware('auth');
     }
 
     /**
@@ -21,6 +21,7 @@ class ChurchController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Church::class);
         $churches = Church::all();
         return view('admin.church.index', compact('churches'));
     }
