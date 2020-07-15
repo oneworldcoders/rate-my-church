@@ -6,6 +6,8 @@
   <div class="row justify-content-center">
     <div class="col-md-8">
 
+      @include('includes.auth.success')
+
       <div class="card">
         <div class="card-header">{{ __($church->name) }}</div>
 
@@ -21,9 +23,13 @@
                       <p>{{ $question->description }}</p>
                     </a>
                   </div>
-                  <div >
+                  <form action="{{ route('questions.destroy', $question) }}" method="POST">
                     <a class="btn btn-secondary" href="{{ route('ratings.show', $question) }}">View Responses</a>
-                  </div>
+                    
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-danger" type="submit">Delete Question</button>
+                  </form>
                 </div>
               </li>
             @endforeach

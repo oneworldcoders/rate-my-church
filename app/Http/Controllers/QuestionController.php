@@ -9,88 +9,92 @@ use App\Http\Requests\QuestionRequest;
 
 class QuestionController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+  public function __construct()
+  {
+    $this->middleware('auth');
+    $this->middleware('admin_auth')->only(['destroy']);
+  }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+  /**
+   * Display a listing of the resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function index()
+  {
+    //
+  }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $this->authorize('create', Question::class);
-        $churches = Church::all();
-        return view('admin.question.create', compact('churches'));
-    }
+  /**
+   * Show the form for creating a new resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function create()
+  {
+    $this->authorize('create', Question::class);
+    $churches = Church::all();
+    return view('admin.question.create', compact('churches'));
+  }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(QuestionRequest $request)
-    {
-        Question::create($request->all());
-        return redirect()->action('AdminController@index')
-                         ->with('success', __('messages.add_success', ['item' => 'question']));
-    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function store(QuestionRequest $request)
+  {
+    $question = Question::create($request->all());
+    return redirect()->route('churches.show', $question->church)
+                     ->with('success', __('messages.add_success', ['item' => 'question']));
+  }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  Question  $question
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Question $question)
-    {
-        //
-    }
+  /**
+   * Display the specified resource.
+   *
+   * @param  Question  $question
+   * @return \Illuminate\Http\Response
+   */
+  public function show(Question $question)
+  {
+    //
+  }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+  /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function edit($id)
+  {
+    //
+  }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function update(Request $request, $id)
+  {
+    //
+  }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+  /**
+   * Remove the specified resource from storage.
+   *
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function destroy(Question $question)
+  {
+    $church = $question->church;
+    $question->delete();
+    return redirect()->action('ChurchController@show', $church)
+                     ->with(['success' =>  __('messages.delete_success', ['item' => 'question'])]);
+  }
 }

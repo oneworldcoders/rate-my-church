@@ -41,4 +41,13 @@ class RatingModelTest extends TestCase
     }
     $this->assertCount(2, $question->ratings);
   }
+
+  public function test_rating_remains_after_question_is_deleted()
+  {
+    $rating = factory(Rating::class)->create();
+    $question = $rating->question;
+    $question->delete();
+    $this->assertFalse(Question::where(['question_id' => $question->id])->exists());
+    $this->assertEquals($rating->question->id, $question->id);
+  }
 }
