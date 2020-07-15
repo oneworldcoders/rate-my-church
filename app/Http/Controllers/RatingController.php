@@ -18,6 +18,7 @@ class RatingController extends Controller
 
   public function index()
   {
+    $this->authorize('viewAny', Rating::class);
     $user = auth()->user();
     $church_name = $user->church->name;
     $ratings = $user->ratings;
@@ -26,6 +27,7 @@ class RatingController extends Controller
 
   public function create()
   {
+    $this->authorize('create', Rating::class);
     $user = auth()->user();
     $church_name = $user->church->name;
     $questions = $user->church->questions;
@@ -34,6 +36,7 @@ class RatingController extends Controller
 
   public function store(Request $request, RatingsService $service)
   {
+    $this->authorize('create', Rating::class);
     $user = auth()->user();
     $questions = $user->church->questions;
     $data = $request->input();

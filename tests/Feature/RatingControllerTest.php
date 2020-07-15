@@ -9,12 +9,14 @@ use Tests\TestCase;
 use App\User;
 use App\Question;
 use App\Rating;
+use App\Role;
 
 class RatingControllerTest extends TestCase
 {
   use RefreshDatabase;
 
   protected $user;
+  protected $unauthorized_user;
   protected $admin;
   protected $church;
   protected $question;
@@ -26,6 +28,11 @@ class RatingControllerTest extends TestCase
   {
     parent::setUp();
     $this->user = factory(User::class)->create();
+    $this->role = factory(Role::class)->create(['name' => 'rate_questions']);
+    $this->give_permissions($this->user, $this->role);
+
+    $this->unauthorized_user = factory(User::class)->create();
+
     $this->admin = factory(User::class)->create(['is_admin' => 1]);
     $this->church = $this->user->church;
     $this->question = factory(Question::class)->create(['church_id' => $this->church]);
@@ -35,6 +42,29 @@ class RatingControllerTest extends TestCase
     $this->post_response = $this->actingAs($this->user)->post(route('ratings.store'), [
       $this->question->id.'' => $this->score,
     ]);
+  }
+
+  protected function give_permissions($user, $role)
+  {
+    $user->roles()->attach($role);
+  }
+
+  public function test_unauthorized_users_cannot_view_ratings()
+  {
+    $response = $this->actingAs($this->unauthorized_user)->get(route('ratings.index'));
+    $response->assertForbidden();
+  }
+
+  public function test_unauthorized_users_cannot_view_create_ratings_page()
+  {
+    $response = $this->actingAs($this->unauthorized_user)->get(route('ratings.create'));
+    $response->assertForbidden();
+  }
+
+  public function test_unauthorized_users_cannot_store_ratings()
+  {
+    $response = $this->actingAs($this->unauthorized_user)->get(route('ratings.store'));
+    $response->assertForbidden();
   }
 
   public function test_church_name_in_passed_to_the_create_view()
