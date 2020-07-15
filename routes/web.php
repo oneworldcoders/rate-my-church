@@ -22,6 +22,7 @@ Route::resource('questions', 'QuestionController');
 Route::resource('users', 'UserController');
 Route::resource('ratings', 'RatingController');
 Route::resource('permissions', 'PermissionController');
+Route::resource('roles', 'RoleController');
 
 Auth::routes();
 
