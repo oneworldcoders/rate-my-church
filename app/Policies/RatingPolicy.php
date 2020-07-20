@@ -94,6 +94,6 @@ class RatingPolicy
 
   protected function hasRated(User $user)
   {
-    return boolval(Rating::where(['user_id'=>$user->id])->get()->all());
+    return Rating::where(['user_id' => $user->id])->exists();
   }
 }
