@@ -27,8 +27,17 @@
         </div>
       </div>
 
+      <div id="chart" style="height: 300px;"></div>
+
     </div>
   </div>
 </div>
+<script>
+var chart_data = {!! json_encode($chart_data) !!};
 
+const chart = new Chartisan({
+  el: '#chart',
+  data: chart_data,
+});
+</script>
 @endsection

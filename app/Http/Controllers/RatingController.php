@@ -7,6 +7,7 @@ use App\User;
 use App\Question;
 use App\Rating;
 use App\Services\RatingsService;
+use App\Charts\RatingBarChart;
 
 class RatingController extends Controller
 {
@@ -51,7 +52,9 @@ class RatingController extends Controller
     $question = Question::find($question_id);
     $ratings = $question->ratings;
     $church_name = $question->church->name;
+    $rating_bar_chart = new RatingBarChart();
+    $chart_data = $rating_bar_chart->makeChart($ratings);
 
-    return view('admin.question.show', compact('ratings', 'church_name', 'question'));
+    return view('admin.question.show', compact('ratings', 'church_name', 'question', 'chart_data'));
   }
 }
