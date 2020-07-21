@@ -33,11 +33,10 @@
   </div>
 </div>
 <script>
-var chart_data = {!! json_encode($chart_data) !!};
 
 const chart = new Chartisan({
   el: '#chart',
-  data: chart_data,
+  data: {!! json_encode($chart_data) !!},
 });
 </script>
 @endsection

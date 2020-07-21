@@ -37,22 +37,24 @@ class RatingController extends Controller
 
   public function store(Request $request, RatingsService $service)
   {
+    echo 'here';
+
     $this->authorize('create', Rating::class);
     $user = auth()->user();
     $questions = $user->church->questions;
     $data = $request->input();
     $model = new Rating;
     $service->updateRatings($user, $questions, $data, $model);
+    echo 'here';
     return redirect()->action('HomeController@index')
                      ->with('success', __('messages.add_success', ['item' => 'ratings']));
   }
 
-  public function show($question_id)
+  public function show($question_id, RatingBarChart $rating_bar_chart)
   {
     $question = Question::find($question_id);
     $ratings = $question->ratings;
     $church_name = $question->church->name;
-    $rating_bar_chart = new RatingBarChart();
     $chart_data = $rating_bar_chart->makeChart($ratings);
 
     return view('admin.question.show', compact('ratings', 'church_name', 'question', 'chart_data'));
