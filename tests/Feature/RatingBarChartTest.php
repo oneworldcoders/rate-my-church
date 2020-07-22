@@ -35,7 +35,7 @@ class RatingBarChartTest extends TestCase
       $this->ratings->push(factory(Rating::class)->create(['score' => $score]));
     }
     $this->response = $this->rating_bar_chart->makeChart($this->ratings);
-    $this->assertEquals($this->response['datasets'][0]['values'], $scoreCount);
+    $this->assertEquals($this->response['datasets'][0]['data'], $scoreCount);
   }
 
   public function test_labels_are_from_1_to_maxScore()
@@ -43,6 +43,6 @@ class RatingBarChartTest extends TestCase
     $maxScore = 10;
     $expected = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     $this->response = $this->rating_bar_chart->makeChart($this->ratings, $maxScore);
-    $this->assertEquals($this->response['chart']['labels'], $expected);
+    $this->assertEquals($this->response['labels'], $expected);
   }
 }

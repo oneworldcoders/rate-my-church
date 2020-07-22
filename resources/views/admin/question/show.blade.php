@@ -27,16 +27,68 @@
         </div>
       </div>
 
-      <div id="chart" style="height: 300px;"></div>
-
+      <canvas id="bar-chart" style="height: 300px;"></canvas>
+      <canvas id="pie-chart" style="height: 300px;"></canvas>
     </div>
   </div>
 </div>
-<script>
 
-const chart = new Chartisan({
-  el: '#chart',
+<script>
+let bar_options = {
+  title: {
+    display: true,
+    text: 'Number of Users'
+  },
+  legend: {
+    display: false,
+  },
+}
+
+let pie_options = {
+  title: {
+    display: true,
+    text: 'Percentage of users',
+  },
+  tooltips: {
+    callbacks: {
+      label: function(tooltipItem, data) {
+        let dataArray = data.datasets[tooltipItem.datasetIndex].data || '';
+        let index = tooltipItem.index;
+
+        let percentageArray = [];
+        let sum = 0;
+        dataArray.map(data => {
+          sum += data;
+        });
+
+        dataArray.map(data => {
+          percentageArray.push((data * 100 / sum).toFixed(2));
+        });
+
+        let label = percentageArray[index] + '%';
+
+        return label;
+      }
+    }
+  }
+};
+
+let config_bar = {
+  type: 'bar',
   data: {!! json_encode($chart_data) !!},
-});
+  options: bar_options,
+};
+
+let config_pie = {
+  type: 'pie',
+  data: {!! json_encode($chart_data) !!},
+  options: pie_options, 
+};
+
+var ctx = document.getElementById('bar-chart').getContext('2d');
+var myChart = new Chart(ctx, config_bar);
+
+var ctx = document.getElementById('pie-chart').getContext('2d');
+var myChart = new Chart(ctx, config_pie);
 </script>
 @endsection
