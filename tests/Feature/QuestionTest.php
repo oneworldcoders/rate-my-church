@@ -135,7 +135,7 @@ class QuestionTest extends TestCase
   public function test_question_is_deleted()
   {
     $response = $this->actingAs($this->admin)->delete(route('questions.destroy', $this->question));
-    $this->assertFalse(Question::where(['id', $this->question->id])->exists());
+    $this->assertFalse(Question::where(['id'=> $this->question->id])->exists());
   }
 
   public function test_redirects_to_church_questions_after_deleting()
