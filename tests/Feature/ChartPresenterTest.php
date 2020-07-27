@@ -29,9 +29,6 @@ class ChartPresenterTest extends TestCase
 
     $validator = new Validator;
     $validator->validate($this->response, $schema);
-    foreach ($validator->getErrors() as $error) {
-        printf("[%s] %s\n", $error['property'], $error['message']);
-    }
     $this->assertTrue($validator->isValid());
   }
 
@@ -59,15 +56,15 @@ class ChartPresenterTest extends TestCase
 
   public function test_percentages_converts_array_to_percentages()
   {
-    $arrayValues = [1, 3];
-    $this->response = $this->mock->percentages($arrayValues);
+    $values = [1, 3];
+    $this->response = $this->mock->calculatePercentages($values);
     $this->assertEquals([25, 75], $this->response);
   }
 
   public function test_percentages_rounds_to_2dp()
   {
-    $arrayValues = [1, 2];
-    $this->response = $this->mock->percentages($arrayValues);
+    $values = [1, 2];
+    $this->response = $this->mock->calculatePercentages($values);
     $this->assertEquals([33.33, 66.67], $this->response);
   }
 }

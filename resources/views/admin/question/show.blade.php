@@ -12,53 +12,7 @@
         <div class="card-body">
           <div class="text-md-center">{{ __($question->description) }}  - ({{ __($question->average_rating) }})</div>
           @if ($ratings)
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col">score</th>
-                  <th scope="col">Users</th>
-                </tr>
-              </thead>
-              <tbody>
-                @foreach($chart_data['labels'] as $label)
-                  <tr>
-                    <th scope="row"> {{ $label }}</th>
-                    @foreach($ratings->where('score', $label)->all() as $rating)
-                      <td> {{ $rating->user_name }}</td>
-                    @endforeach
-                  </tr>
-                @endforeach
-
-              </tbody>
-            </table> 
-
-
-          <div class="accordion" id="accordionExample">
-            @foreach($chart_data['labels'] as $label)
-              <div class="card">
-                <div class="card-header" id="headingOne">
-                  <h5 class="mb-0">
-                    <span class="col text-dark" type="button" data-toggle="collapse" data-target="#collapse{{$label}}" aria-expanded="false" aria-controls="collapse{{$label}}">
-                      Score: {{$label}}
-                    </span>
-                  </h5>
-                </div>
-
-                <div id="collapse{{$label}}" class="collapse">
-                  <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                      @foreach($ratings->where('score', $label)->all() as $rating)
-                        <li class="list-group-item">
-                           {{ $rating->user_name }}
-                        </li>
-                      @endforeach
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            @endforeach
-          </div>
-
+            @include('includes.ratings.table')
           @else
             <p>No Ratings</p>
             @endif

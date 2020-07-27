@@ -23,6 +23,6 @@ class RatingsObserver
     }
     $count = $ratings->count();
     $average = $sum/$count;
-    $question->update(['average_rating' => $average]);
+    $question->update(['average_rating' => number_format((float)$average, 2)]);
   }
 }

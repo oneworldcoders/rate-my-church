@@ -10,8 +10,8 @@ trait ChartPresenter {
       'datasets' => [
         [
           'data' => $values,
-          'percentages' => $this->percentages($values),
-          'backgroundColor' => $this->randomColorArray($maxScore),
+          'percentages' => $this->calculatePercentages($values),
+          'backgroundColor' => $this->randomColors($maxScore),
           'label' => $datasetName
         ]
       ],
@@ -19,15 +19,15 @@ trait ChartPresenter {
     ];
   }
 
-  function percentages($arrayValues)
+  function calculatePercentages($values)
   {
-    $percentageArray = [];
-    $sum = array_sum($arrayValues);
-    foreach($arrayValues as $value)
+    $percentages = [];
+    $sum = array_sum($values);
+    foreach($values as $value)
     {
-      array_push($percentageArray, number_format($value * 100 / $sum, 2));
+      array_push($percentages, number_format($value * 100 / $sum, 2));
     }
-    return $percentageArray;
+    return $percentages;
   }
 
   function randomColor()
@@ -35,7 +35,7 @@ trait ChartPresenter {
     return 'rgb('.rand(0, 255).','.rand(0, 255).','.rand(0, 255).')';
   }
 
-  function randomColorArray($size = 1)
+  function randomColors($size = 1)
   {
     $result = [];
     for($times = 1; $times <= $size; $times++){
