@@ -29,6 +29,9 @@ class ChartPresenterTest extends TestCase
 
     $validator = new Validator;
     $validator->validate($this->response, $schema);
+    foreach ($validator->getErrors() as $error) {
+        printf("[%s] %s\n", $error['property'], $error['message']);
+    }
     $this->assertTrue($validator->isValid());
   }
 
@@ -50,7 +53,21 @@ class ChartPresenterTest extends TestCase
   {
     $maxScore = 3;
     $expectedLabels = [1, 2, 3];
-    $this->response = $this->mock->build(null, null, $maxScore);
+    $this->response = $this->mock->build('', [], $maxScore);
     $this->assertEquals($this->response['labels'], $expectedLabels);
+  }
+
+  public function test_percentages_converts_array_to_percentages()
+  {
+    $arrayValues = [1, 3];
+    $this->response = $this->mock->percentages($arrayValues);
+    $this->assertEquals([25, 75], $this->response);
+  }
+
+  public function test_percentages_rounds_to_2dp()
+  {
+    $arrayValues = [1, 2];
+    $this->response = $this->mock->percentages($arrayValues);
+    $this->assertEquals([33.33, 66.67], $this->response);
   }
 }
