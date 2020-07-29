@@ -24,7 +24,10 @@ class ChurchController extends Controller
     {
         $this->authorize('viewAny', Church::class);
         $churches = Church::all();
-        $addresses = Address::all();
+        $addresses = [];
+        foreach($churches as $church){
+          array_push($addresses, $church->address);
+        }
         return view('admin.church.index', compact('churches', 'addresses'));
     }
 

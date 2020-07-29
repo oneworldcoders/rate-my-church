@@ -31,7 +31,12 @@
 
 </div>
 
+ <!-- Google Maps -->
+ <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclustererplus@4.0.1.min.js"></script>
 
+<script defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKt4p3f8Opos-7Y2W7uOHpyKUcyYA6Cjw&callback=initMap">
+</script>
 
 <script>
 let map;
@@ -48,7 +53,6 @@ function initMap() {
     });
   });
 
-  // Add a marker clusterer to manage the markers.
   let markerCluster = new MarkerClusterer(map, markers,
       {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 }
