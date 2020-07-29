@@ -35,6 +35,12 @@
                         "type": "integer"
                     }
                 },
+                "percentages": {
+                    "type": "array",
+                    "items": {
+                        "type": "float"
+                    }
+                },
                 "backgroundColor": {
                     "type": "array",
                     "items": {

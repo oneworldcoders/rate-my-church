@@ -23,17 +23,17 @@ class RatingBarChartTest extends TestCase
 
     $this->rating_bar_chart = new RatingBarChart();
     $this->ratings = collect([]);
-  }
-
-  public function test_scores_are_set_to_dataset_values()
-  {
     $scores = [1, 2, 3, 4, 1, 2, 3];
-    $scoreCount = [2, 2, 2, 1, 0];
 
     foreach($scores as $score)
     {
       $this->ratings->push(factory(Rating::class)->create(['score' => $score]));
     }
+  }
+
+  public function test_scores_are_set_to_dataset_values()
+  {
+    $scoreCount = [2, 2, 2, 1, 0];
     $this->response = $this->rating_bar_chart->makeChart($this->ratings);
     $this->assertEquals($this->response['datasets'][0]['data'], $scoreCount);
   }

@@ -8,15 +8,19 @@ use \App\Rating;
 
 class RatingSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+  /**
+   * Run the database seeds.
+   *
+   * @return void
+   */
+  public function run()
+  {
+    $question = Question::where(['title' => 'Choir'])->get()->first();
+
+    $users = User::all();
+    foreach($users as $user)
     {
-        $user = factory(User::class)->create();
-        $question = factory(Question::class)->create();
-        factory(Rating::class)->create(['user_id'=>$user, 'question_id'=>$question]);
+      factory(Rating::class)->create(['user_id' => $user, 'question_id' => $question]);
     }
+  }
 }

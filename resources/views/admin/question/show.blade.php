@@ -12,21 +12,13 @@
         <div class="card-body">
           <div class="text-md-center">{{ __($question->description) }}  - ({{ __($question->average_rating) }})</div>
           @if ($ratings)
-            <ul class="list-group list-group-flush">
-              @foreach ($ratings as $rating)
-                <li class="list-group-item">
-                  <a>
-                    {{ $rating->user_name }} - {{ $rating->score }}
-                  </a>
-                </li>
-              @endforeach
-            </ul>
+            @include('includes.ratings.table')
           @else
             <p>No Ratings</p>
-          @endif
+            @endif
         </div>
       </div>
-
+      
       <canvas id="bar-chart" style="height: 300px;"></canvas>
       <canvas id="pie-chart" style="height: 300px;"></canvas>
     </div>
@@ -34,7 +26,7 @@
 </div>
 
 <script>
-let bar_options = {
+let barOptions = {
   title: {
     display: true,
     text: 'Number of Users'
@@ -42,9 +34,16 @@ let bar_options = {
   legend: {
     display: false,
   },
+  scales: {
+    yAxes: [{
+      ticks: {
+        beginAtZero: true
+      }
+    }]
+  }
 }
 
-let pie_options = {
+let pieOptions = {
   title: {
     display: true,
     text: 'Percentage of users',
@@ -52,43 +51,31 @@ let pie_options = {
   tooltips: {
     callbacks: {
       label: function(tooltipItem, data) {
-        let dataArray = data.datasets[tooltipItem.datasetIndex].data || '';
+        let percentageArray = data.datasets[tooltipItem.datasetIndex].percentages || [];
         let index = tooltipItem.index;
 
-        let percentageArray = [];
-        let sum = 0;
-        dataArray.map(data => {
-          sum += data;
-        });
-
-        dataArray.map(data => {
-          percentageArray.push((data * 100 / sum).toFixed(2));
-        });
-
-        let label = percentageArray[index] + '%';
-
-        return label;
+        return percentageArray[index] + '%';
       }
     }
-  }
+  },
 };
 
-let config_bar = {
-  type: 'bar',
+let configBar = {
+type: 'bar',
   data: {!! json_encode($chart_data) !!},
-  options: bar_options,
+  options: barOptions,
 };
 
-let config_pie = {
-  type: 'pie',
+let configPie = {
+type: 'pie',
   data: {!! json_encode($chart_data) !!},
-  options: pie_options, 
+  options: pieOptions, 
 };
 
 var ctx = document.getElementById('bar-chart').getContext('2d');
-var myChart = new Chart(ctx, config_bar);
+var myChart = new Chart(ctx, configBar);
 
 var ctx = document.getElementById('pie-chart').getContext('2d');
-var myChart = new Chart(ctx, config_pie);
+var myChart = new Chart(ctx, configPie);
 </script>
 @endsection
