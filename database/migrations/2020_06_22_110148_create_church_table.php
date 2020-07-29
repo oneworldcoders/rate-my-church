@@ -16,7 +16,6 @@ class CreateChurchTable extends Migration
         Schema::create('churches', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('location');
             $table->string('religion');
             $table->timestamps();
         });

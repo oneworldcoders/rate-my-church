@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Church extends Model
 {
-    protected $guarded = [];
+    protected $fillable = ['name', 'religion'];
 
     public function questions()
     {
@@ -16,5 +16,10 @@ class Church extends Model
     public function users()
     {
         return $this->hasMany(User::class);
+    }
+
+    public function address()
+    {
+      return $this->hasOne(Address::class);
     }
 }

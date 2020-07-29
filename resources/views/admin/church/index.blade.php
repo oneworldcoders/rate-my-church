@@ -26,6 +26,38 @@
       </div>
     </div>
   </div>
+  
+  <div id="map" style="width: 100%; height: 450px;"> </div>
+
 </div>
+
+
+
+<script>
+let map;
+
+function initMap() {
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: -1.944960, lng: 30.062040 },
+    zoom: 8
+  });
+
+  let markers = locations.map(function(location, i) { return new google.maps.Marker({
+      position: location,
+      label: labels[i % labels.length][0]
+    });
+  });
+
+  // Add a marker clusterer to manage the markers.
+  let markerCluster = new MarkerClusterer(map, markers,
+      {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+}
+
+let labels = {!! json_encode($churches->pluck('name')->all()) !!};
+let locations = {!! json_encode($addresses, JSON_NUMERIC_CHECK) !!};
+
+</script>
+
+
 
 @endsection
