@@ -41,7 +41,7 @@ class ChurchPolicy
    */
   public function create(User $user)
   {
-    //
+    return in_array('create_churches', $user->roles->pluck('name')->all()) || $user->is_admin;
   }
 
   /**

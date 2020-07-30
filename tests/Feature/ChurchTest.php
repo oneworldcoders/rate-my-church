@@ -26,7 +26,7 @@ class ChurchTest extends TestCase
     $this->full_address = 'Full Address';
     $this->response = $this->actingAs($this->admin)->post(route('churches.store'), [
       'name' => $church_name,
-      'religion' => 'Test Religion',
+      'religion_id' => 1,
       'address' => [
         'fullname' => $this->full_address,
         'lat' => 0,

@@ -4,30 +4,33 @@
 
 <div class="container">
   <div class="row justify-content-center">
-    <div class="col-md-8">
+    <div class="col-md-12">
       @include('includes.auth.success')
 
       <div class="card">
         <div class="card-header">{{ __('Churches') }}</div>
 
         <div class="card-body">
-          <ul class="list-group list-group-flush">
+          @include('includes.church.table')
+          <!--<ul class="list-group list-group-flush">
             @foreach ($churches as $church)
               <li class="list-group-item">
                 <a href="{{ route('churches.show', $church) }}">{{ $church->name }}</a>
               </li>
             @endforeach
-          </ul>
-
-          <div class="offset-md-4">
-            <a class="btn btn-primary" href="{{ route('churches.create') }}">Add a Church</a>
-          </div>
+          </ul> -->
+          @can('create', App\Church::class)
+            <div class="offset-md-4">
+              <a class="btn btn-primary" href="{{ route('churches.create') }}">Add a Church</a>
+            </div>
+          @endcan
         </div>
       </div>
+      
+      <div id="map" style="width: 100%; height: 800px;"> </div>
     </div>
   </div>
   
-  <div id="map" style="width: 100%; height: 450px;"> </div>
 
 </div>
 
@@ -44,7 +47,7 @@ let map;
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: -1.944960, lng: 30.062040 },
-    zoom: 8
+    zoom: 9
   });
 
   let markers = locations.map(function(location, i) { return new google.maps.Marker({
