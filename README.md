@@ -1,7 +1,8 @@
-# rate-my-church
+# Rate My Church
 
 ![PHP Composer](https://github.com/oneworldcoders/rate-my-church/workflows/PHP%20Composer/badge.svg)
 
+Rate My Church is an application that allows users to find a church that best fits their needs.
 
 ## Setup and Installation
 
