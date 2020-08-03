@@ -27,11 +27,28 @@
 
 </div>
 
+<?php
+function array_flatten($array) {
+  if (!is_array($array)) {
+    return false;
+  }
+  $result = array();
+  foreach ($array as $key => $value) {
+    if (is_array($value)) {
+      $result = array_merge($result, array_flatten($value));
+    } else {
+      $result = array_merge($result, array($key => $value));
+    }
+  }
+  return $result;
+}
+?>
+
  <!-- Google Maps -->
  <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclustererplus@4.0.1.min.js"></script>
 
 <script defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKt4p3f8Opos-7Y2W7uOHpyKUcyYA6Cjw&callback=initMap">
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1BI-5EjRRfrCRmhU27hejTZhMyAFzWoY&callback=initMap">
 </script>
 
 <script>
