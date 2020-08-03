@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Providers\RouteServiceProvider;
 use App\Church;
+use App\Address;
 use Illuminate\Http\Request;
 use App\Http\Requests\ChurchRequest;
 
@@ -23,7 +24,11 @@ class ChurchController extends Controller
     {
         $this->authorize('viewAny', Church::class);
         $churches = Church::all();
-        return view('admin.church.index', compact('churches'));
+        $addresses = [];
+        foreach($churches as $church){
+          array_push($addresses, $church->address);
+        }
+        return view('admin.church.index', compact('churches', 'addresses'));
     }
 
     /**
@@ -44,7 +49,8 @@ class ChurchController extends Controller
      */
     public function store(ChurchRequest $request)
     {
-        Church::create($request->all());
+        $church = Church::create($request->all());
+        $church->address()->create($request->get('address'));
         return redirect()->route('churches.index')
                          ->with('success', __('messages.add_success', ['item' => 'church']));
     }

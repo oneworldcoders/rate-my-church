@@ -15,18 +15,26 @@ class ChurchTest extends TestCase
 
   protected $response;
   protected $admin;
-  protected $church_id;
+  protected $church;
+  protected $full_address;
 
   protected function setUp(): void
   {
     parent::setUp();
     $this->admin = factory(User::class)->create(['is_admin' => 1]);
+    $church_name = 'Test Name';
+    $this->full_address = 'Full Address';
     $this->response = $this->actingAs($this->admin)->post(route('churches.store'), [
-      'id' => $this->church_id,
-      'name' => 'Test Name',
-      'location' => 'Test Location',
-      'religion' => 'Test Religion'
+      'name' => $church_name,
+      'religion' => 'Test Religion',
+      'address' => [
+        'fullname' => $this->full_address,
+        'lat' => 0,
+        'lng' => 0,
+      ],
     ]);
+
+    $this->church = Church::firstWhere(['name' => $church_name]);
   }
 
   public function test_forbid_non_admin_without_view_churches_role()
@@ -54,8 +62,18 @@ class ChurchTest extends TestCase
 
   public function test_a_church_can_be_added_through_the_form()
   {
-    $church = Church::find(['id' => $this->church_id]);
-    $this->assertNotNull($church);
+    $this->assertTrue($this->church->exists);
+  }
+
+  public function test_address_is_created()
+  {
+    $this->assertTrue($this->church->address->exists);
+  }
+  
+  public function test_address_is_with_attributes()
+  {
+    $address = $this->church->address;
+    $this->assertEquals($address->fullname, $this->full_address);
   }
 
   public function test_redirects_to_index_after_submit()
@@ -68,22 +86,28 @@ class ChurchTest extends TestCase
     $this->response->assertSessionHas('success', __('messages.add_success', ['item' => 'church']));
   }
 
-  public function test_produces_error_with_a_missing_field()
+  public function test_produces_error_with_a_missing_address()
   {
     $response = $this->post(route('churches.store'), [
       'name' => 'Test Name',
       'religion' => 'Religion'
     ]);
 
-    $response->assertSessionHasErrors('location');
+    $response->assertSessionHasErrors('address.fullname');
+    $response->assertSessionHasErrors('address.lat');
+    $response->assertSessionHasErrors('address.lng');
   }
 
   public function test_church_name_uniqueness()
   {
     $response = $this->post(route('churches.store'), [
       'name' => 'Test Name',
-      'location' => 'Location',
-      'religion' => 'Religion'
+      'religion' => 'Religion',
+      'address' => [
+        'fullname' => 'Test FullName',
+        'lat' => 0,
+        'lng' => 0,
+      ],
     ]);
 
     $this->response->assertSessionHasErrors('name');
@@ -103,10 +127,17 @@ class ChurchTest extends TestCase
 
   public function test_church_index_route_contains_all_churches()
   {
-    $churches = factory(Church::class, 3)->create();
     $response = $this->get(route('churches.index'));
     $response->assertViewHas('churches');
   }
+
+  public function test_church_index_route_contains_addresses()
+  {
+    $response = $this->get(route('churches.index'));
+    $response->assertViewHas('addresses');
+  }
+
+  
 
   public function test_church_show_route_renders_church_show_view()
   {
