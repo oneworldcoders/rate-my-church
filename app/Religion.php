@@ -2,10 +2,14 @@
 
 namespace App;
 
+use App\Presenters\ReligionPresenter;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Religion extends Model
 {
+  use ReligionPresenter;
+
   protected $guarded = [];
 
   protected function users()

@@ -12,13 +12,6 @@
 
         <div class="card-body">
           @include('includes.church.table')
-          <!--<ul class="list-group list-group-flush">
-            @foreach ($churches as $church)
-              <li class="list-group-item">
-                <a href="{{ route('churches.show', $church) }}">{{ $church->name }}</a>
-              </li>
-            @endforeach
-          </ul> -->
           @can('create', App\Church::class)
             <div class="offset-md-4">
               <a class="btn btn-primary" href="{{ route('churches.create') }}">Add a Church</a>
@@ -60,9 +53,9 @@ function initMap() {
       {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 }
 
-let labels = {!! json_encode($churches->pluck('name')->all()) !!};
-let locations = {!! json_encode($addresses, JSON_NUMERIC_CHECK) !!};
-
+let labels = {!! json_encode(App\Religion::all_church_names($religions)) !!};
+let locations = {!! json_encode(App\Religion::all_church_addresses($religions), JSON_NUMERIC_CHECK) !!};
+console.log(locations)
 </script>
 
 

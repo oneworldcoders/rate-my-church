@@ -25,19 +25,14 @@ class ChurchController extends Controller
     {
         $this->authorize('viewAny', Church::class);
         $user = auth()->user();
-        $religions = Religion::all();
         
         if ($user->is_admin){
-          $churches = Church::all();
+          $religions = Religion::all();
         } else {
-          $churches = Church::where(['religion_id' => $user->religion->id])->get();
+          $religions = Religion::where('id', $user->religion->id)->get();
         }
-        
-        $addresses = [];
-        foreach($churches as $church){
-          array_push($addresses, $church->address);
-        }
-        return view('admin.church.index', compact('churches', 'addresses', 'religions'));
+
+        return view('admin.church.index', compact('religions'));
     }
 
     /**

@@ -12,7 +12,7 @@
       <div id="collapse{{$religion->id}}" class="collapse">
         <div class="card-body">
           <ul class="list-group list-group-flush">
-            @foreach($churches->where('religion_id', 1) as $church)
+            @foreach($religion->churches as $church)
               <li class="list-group-item">
                 {{ $church->name }}
               </li>
