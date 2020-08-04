@@ -26,7 +26,7 @@ class ChurchTest extends TestCase
     $this->full_address = 'Full Address';
     $this->response = $this->actingAs($this->admin)->post(route('churches.store'), [
       'name' => $church_name,
-      'religion_id' => 1,
+      'religion' => 'Test Religion',
       'address' => [
         'fullname' => $this->full_address,
         'lat' => 0,
@@ -47,7 +47,7 @@ class ChurchTest extends TestCase
   public function test_grants_non_admin_with_view_churches_role()
   {
     $user = factory(User::class)->create();
-    $role = factory(Role::class)->create(['name' => 'view_churches']);
+    $role = Role::create(['name'=>'view_churches', 'description'=>'']);
     $user->roles()->attach($role);
     $response = $this->actingAs($user)->get(route('churches.index'));
     $response->assertStatus(200);
@@ -125,11 +125,19 @@ class ChurchTest extends TestCase
     $response->assertViewIs('admin.church.index');
   }
 
-  public function test_church_index_route_contains_all_religions()
+  public function test_church_index_route_contains_all_churches()
   {
     $response = $this->get(route('churches.index'));
-    $response->assertViewHas('religions');
+    $response->assertViewHas('churches');
   }
+
+  public function test_church_index_route_contains_addresses()
+  {
+    $response = $this->get(route('churches.index'));
+    $response->assertViewHas('addresses');
+  }
+
+  
 
   public function test_church_show_route_renders_church_show_view()
   {

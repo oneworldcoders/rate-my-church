@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use App\Church;
-use App\Religion;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -61,8 +60,7 @@ class RegisterController extends Controller
     public function showRegistrationForm()
     {
         $churches = Church::all();
-        $religions = Religion::all();
-        return view('auth.register', compact('churches', 'religions'));
+        return view('auth.register', compact('churches'));
     }
 
     /**
@@ -76,7 +74,6 @@ class RegisterController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'religion_id' =>$data['religion_id'],
             'church_id' => $data['church_id'],
             'password' => Hash::make($data['password']),
         ]);

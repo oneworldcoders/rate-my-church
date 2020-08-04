@@ -17,6 +17,5 @@ class RoleSeeder extends Seeder
     Role::create(['name'=>'rate_questions', 'description'=>'rate questions']);
     Role::create(['name'=>'view_churches', 'description'=>'view churches']);
     Role::create(['name'=>'add_questions', 'description'=>'add questions']);
-    Role::create(['name'=>'create_churches', 'description'=>'add churches']);
   }
 }
