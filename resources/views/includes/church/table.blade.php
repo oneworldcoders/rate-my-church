@@ -14,11 +14,16 @@
           <ul class="list-group list-group-flush">
             @foreach($religion->churches as $church)
               <li class="list-group-item">
-                {{ $church->name }}
-                <!--
-                <a class="btn btn-primary" href="{{ route('ratings.create', $church) }}">Rate Church</a>
-                <a class="btn btn-primary" href="{{ route('ratings.index') }}">View Ratings</a>
-                -->
+                <div class="row">
+                  <label class="col-md-4 text-md-right">{{ $church->name }}</label>
+                  @can('create', App\Rating::class)
+                    <a class="btn btn-primary ml-2" href="{{ route('ratings.create', ['church' => $church]) }}">Rate Church</a>
+                    <a class="btn btn-primary ml-2" href="{{ route('ratings.index', ['church' => $church]) }}">View Ratings</a>
+                  @endcan
+                  @can('viewAny', App\Church::class)
+                    <a class="btn btn-primary ml-2" href="{{ route('churches.show', $church) }}">Details</a>
+                  @endcan
+                </div>
               </li>
             @endforeach
           </ul>

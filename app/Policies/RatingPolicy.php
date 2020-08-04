@@ -18,7 +18,7 @@ class RatingPolicy
    */
   public function viewAny(User $user)
   {
-    return $this->hasRated($user);
+    return in_array('rate_questions', $user->roles->pluck('name')->all());
   }
 
   /**

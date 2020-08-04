@@ -14,11 +14,11 @@ class PermissionSeeder extends Seeder
   public function run()
   {
     $roles = Role::where(['name' => 'rate_questions'])->orWhere(['name' => 'view_churches'])->get();
-    $users = User::all();
+    $users = User::where('is_admin', '!=', true)->get();
 
     foreach($users as $user){
       foreach($roles as $role){
-        $user->roles()->sync($role);
+        $user->roles()->attach($role);
       }
     }
   }

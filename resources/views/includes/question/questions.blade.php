@@ -1,10 +1,12 @@
 <br></br>
 <div class="card">
-  <div class="card-header">{{ $church_name }}</div>
+  <div class="card-header">{{ $church->name }}</div>
 
   <div class="card-body">
     <form action="{{ route('ratings.store') }}" method="POST">
       @csrf
+
+      <input type="hidden" name="church" value="{{$church->id}}">
 
       @foreach ($questions as $question)
         <div class="form-group row">

@@ -18,29 +18,30 @@ class RatingController extends Controller
     $this->middleware('admin_auth')->only(['show']);
   }
 
-  public function index()
+  public function index(Request $request)
   {
     $this->authorize('viewAny', Rating::class);
     $user = auth()->user();
-    $church_name = $user->church->name;
+    $church = Church::find($request->church);
+    $church_name = $church->name;
     $ratings = $user->ratings;
     return view('users.ratings.index', compact('church_name', 'ratings'));
   }
 
-  public function create(Church $church)
+  public function create(Request $request)
   {
     $this->authorize('create', Rating::class);
-    $user = auth()->user();
-    $church_name = $church->name;
+    $church = Church::find($request->church);
     $questions = $church->questions;
-    return view('users.ratings.create', compact('church_name', 'questions'));
+    return view('users.ratings.create', compact('church', 'questions'));
   }
 
   public function store(Request $request, RatingsService $service)
   {
     $this->authorize('create', Rating::class);
+    $church = Church::find($request->church);
     $user = auth()->user();
-    $questions = $user->church->questions;
+    $questions = $church->questions;
     $data = $request->input();
     $model = new Rating;
     $service->updateRatings($user, $questions, $data, $model);

@@ -4,7 +4,7 @@
 <div class="container">
   <div class="row justify-content-center">
       <div class="col-md-8">
-        @if ($questions)
+        @if (count($questions) > 0)
           @include('includes.question.questions')  
         @else
           @include('includes.question.no_questions')

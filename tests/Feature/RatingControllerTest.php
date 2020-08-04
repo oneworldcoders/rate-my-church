@@ -10,6 +10,7 @@ use App\User;
 use App\Question;
 use App\Rating;
 use App\Role;
+use App\Church;
 
 class RatingControllerTest extends TestCase
 {
@@ -20,8 +21,9 @@ class RatingControllerTest extends TestCase
   protected $admin;
   protected $church;
   protected $question;
-  protected $get_response;
+  protected $create_response;
   protected $post_response;
+  protected $index_response;
   protected $score;
 
   protected function setUp(): void
@@ -34,14 +36,17 @@ class RatingControllerTest extends TestCase
     $this->unauthorized_user = factory(User::class)->create();
 
     $this->admin = factory(User::class)->create(['is_admin' => 1]);
-    $this->church = $this->user->church;
+    $this->church = factory(Church::class)->create();
     $this->question = factory(Question::class)->create(['church_id' => $this->church]);
-    $this->get_response = $this->actingAs($this->user)->get(route('ratings.create'));
-
+    
     $this->score = 1;
     $this->post_response = $this->actingAs($this->user)->post(route('ratings.store'), [
       $this->question->id.'' => $this->score,
+      'church' => $this->church->id,
     ]);
+
+    $this->create_response = $this->actingAs($this->user)->get(route('ratings.create', ['church' => $this->church]));
+    $this->index_response = $this->actingAs($this->user)->get(route('ratings.index', ['church' => $this->church]));
   }
 
   protected function give_permissions($user, $role)
@@ -67,14 +72,14 @@ class RatingControllerTest extends TestCase
     $response->assertForbidden();
   }
 
-  public function test_church_name_in_passed_to_the_create_view()
+  public function test_church_is_passed_to_the_create_view()
   {
-    $this->get_response->assertViewHas('church_name', $this->church->name);
+    $this->create_response->assertViewHas('church', $this->church);
   }
 
   public function test_questions_are_passed_to_the_create_view()
   {
-    $this->get_response->assertViewHas('questions', $this->church->questions);
+    $this->create_response->assertViewHas('questions', $this->church->questions);
   }
 
   public function test_redirects_to_home_after_submit()
@@ -82,7 +87,7 @@ class RatingControllerTest extends TestCase
     $this->post_response->assertRedirect(route('home'));
   }
 
-  public function test_success_message_in_session()
+  public function test_success_rating_message_in_session()
   {
     $this->post_response->assertSessionHas('success', __('messages.add_success', ['item' => 'ratings']));
   }
@@ -94,20 +99,17 @@ class RatingControllerTest extends TestCase
 
   public function test_user_can_view_response_page()
   {
-    $response = $this->actingAs($this->user)->get(route('ratings.index'));
-    $response->assertStatus(200);
+    $this->index_response->assertStatus(200);
   }
 
   public function test_response_page_contains_ratings()
   {
-    $response = $this->actingAs($this->user)->get(route('ratings.index'));
-    $response->assertViewHas('ratings', $this->user->questions);
+    $this->index_response->assertViewHas('ratings', $this->user->questions);
   }
 
   public function test_response_page_contains_church_name()
   {
-    $response = $this->actingAs($this->user)->get(route('ratings.index'));
-    $response->assertViewHas('church_name', $this->church->name);
+    $this->index_response->assertViewHas('church_name', $this->church->name);
   }
 
   public function test_admin_can_view_ratings()
