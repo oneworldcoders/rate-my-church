@@ -4,26 +4,30 @@
 
 <div class="container">
   <div class="row justify-content-center">
-    <div class="col-md-12">
+    <div class="col-md-8">
       @include('includes.auth.success')
 
       <div class="card">
         <div class="card-header">{{ __('Churches') }}</div>
 
         <div class="card-body">
-          @include('includes.church.table')
-          @can('create', App\Church::class)
-            <div class="offset-md-4">
-              <a class="btn btn-primary" href="{{ route('churches.create') }}">Add a Church</a>
-            </div>
-          @endcan
+          <ul class="list-group list-group-flush">
+            @foreach ($churches as $church)
+              <li class="list-group-item">
+                <a href="{{ route('churches.show', $church) }}">{{ $church->name }}</a>
+              </li>
+            @endforeach
+          </ul>
+
+          <div class="offset-md-4">
+            <a class="btn btn-primary" href="{{ route('churches.create') }}">Add a Church</a>
+          </div>
         </div>
       </div>
-      
-      <div id="map" style="width: 100%; height: 800px;"> </div>
     </div>
   </div>
   
+  <div id="map" style="width: 100%; height: 450px;"> </div>
 
 </div>
 
@@ -40,7 +44,7 @@ let map;
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: -1.944960, lng: 30.062040 },
-    zoom: 9
+    zoom: 8
   });
 
   let markers = locations.map(function(location, i) { return new google.maps.Marker({
@@ -53,9 +57,9 @@ function initMap() {
       {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 }
 
-let labels = {!! json_encode(App\Religion::all_church_names($religions)) !!};
-let locations = {!! json_encode(App\Religion::all_church_addresses($religions), JSON_NUMERIC_CHECK) !!};
-console.log(locations)
+let labels = {!! json_encode($churches->pluck('name')->all()) !!};
+let locations = {!! json_encode($addresses, JSON_NUMERIC_CHECK) !!};
+
 </script>
 
 

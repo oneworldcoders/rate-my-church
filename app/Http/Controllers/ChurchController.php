@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Providers\RouteServiceProvider;
 use App\Church;
 use App\Address;
-use App\Religion;
 use Illuminate\Http\Request;
 use App\Http\Requests\ChurchRequest;
 
@@ -24,15 +23,12 @@ class ChurchController extends Controller
     public function index()
     {
         $this->authorize('viewAny', Church::class);
-        $user = auth()->user();
-        
-        if ($user->is_admin){
-          $religions = Religion::all();
-        } else {
-          $religions = Religion::where('id', $user->religion->id)->get();
+        $churches = Church::all();
+        $addresses = [];
+        foreach($churches as $church){
+          array_push($addresses, $church->address);
         }
-
-        return view('admin.church.index', compact('religions'));
+        return view('admin.church.index', compact('churches', 'addresses'));
     }
 
     /**
@@ -42,7 +38,6 @@ class ChurchController extends Controller
      */
     public function create()
     {
-        $this->authorize('create', Church::class);
         return view('admin.church.create');
     }
 

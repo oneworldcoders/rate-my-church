@@ -38,22 +38,7 @@
                                 @enderror
                             </div>
                         </div>
-                        
-                        <div class="form-group row">
-                            <label for="religion" class="col-md-4 col-form-label text-md-right">{{ __('Religion') }}</label>
-                            
-                            <div class="col-md-6">
-                                <select name="religion_id" id="church_id" class="form-control" required>
-                                    <option value="" disabled>Choose a Religion</option>
-                                    <option value="">{{ __('None') }}</option>
 
-                                    @foreach ($religions as $religion)
-                                        <option value=" {{ $religion->id }} ">{{ $religion->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        
                         <div class="form-group row">
                             <label for="church_id" class="col-md-4 col-form-label text-md-right">{{ __('Church') }}</label>
                             

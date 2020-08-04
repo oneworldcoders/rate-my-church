@@ -25,7 +25,7 @@ class ChurchRequest extends FormRequest
   {
     return [
       'name' => 'required|unique:churches,name',
-      'religion_id' => 'required',
+      'religion' => 'required',
       'address.fullname' => 'required',
       'address.lat' => 'required',
       'address.lng' => 'required',
