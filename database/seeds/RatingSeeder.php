@@ -15,12 +15,13 @@ class RatingSeeder extends Seeder
    */
   public function run()
   {
-    $question = Question::where(['title' => 'Choir'])->get()->first();
-
+    $questions = Question::all();
     $users = User::all();
-    foreach($users as $user)
-    {
-      factory(Rating::class)->create(['user_id' => $user, 'question_id' => $question]);
+
+    foreach($users as $user){
+      foreach($questions as $question){
+        Rating::create(['user_id' => $user->id, 'question_id' => $question->id, 'score' => rand(1, 5)]);
+      }
     }
   }
 }

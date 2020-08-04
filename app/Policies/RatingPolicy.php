@@ -41,7 +41,7 @@ class RatingPolicy
    */
   public function create(User $user)
   {
-    return in_array('rate_questions', $user->roles->pluck('name')->all()) and !$this->hasRated($user);
+    return in_array('rate_questions', $user->roles->pluck('name')->all());
   }
 
   /**

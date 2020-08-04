@@ -60,9 +60,8 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        $churches = Church::all();
         $religions = Religion::all();
-        return view('auth.register', compact('churches', 'religions'));
+        return view('auth.register', compact('religions'));
     }
 
     /**
@@ -77,7 +76,6 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'religion_id' =>$data['religion_id'],
-            'church_id' => $data['church_id'],
             'password' => Hash::make($data['password']),
         ]);
     }

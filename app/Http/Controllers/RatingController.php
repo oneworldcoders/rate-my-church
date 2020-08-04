@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Question;
 use App\Rating;
+use App\Church;
 use App\Services\RatingsService;
 use App\Charts\RatingBarChart;
 
@@ -26,12 +27,12 @@ class RatingController extends Controller
     return view('users.ratings.index', compact('church_name', 'ratings'));
   }
 
-  public function create()
+  public function create(Church $church)
   {
     $this->authorize('create', Rating::class);
     $user = auth()->user();
-    $church_name = $user->church->name;
-    $questions = $user->church->questions;
+    $church_name = $church->name;
+    $questions = $church->questions;
     return view('users.ratings.create', compact('church_name', 'questions'));
   }
 

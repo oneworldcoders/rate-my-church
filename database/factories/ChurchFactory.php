@@ -9,8 +9,9 @@ use Faker\Generator as Faker;
 
 $factory->define(Church::class, function (Faker $faker) {
     $religions = Religion::all();
+    $religion_key = array_rand($religions->toArray());
     return [
         'name' => $faker->unique()->name,
-        'religion_id' => $religions->count() > 0 ? array_rand($religions->toArray()) : factory(Religion::class)->create(),
+        'religion_id' => $religions->count() > 0 ? $religions[$religion_key] : factory(Religion::class)->create(),
     ];
 });

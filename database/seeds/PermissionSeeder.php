@@ -13,12 +13,13 @@ class PermissionSeeder extends Seeder
    */
   public function run()
   {
-    $role = Role::where(['name' => 'rate_questions'])->get()->first();
+    $roles = Role::where(['name' => 'rate_questions'])->orWhere(['name' => 'view_churches'])->get();
     $users = User::all();
 
-    foreach($users as $user)
-    {
-      $user->roles()->sync($role);
+    foreach($users as $user){
+      foreach($roles as $role){
+        $user->roles()->sync($role);
+      }
     }
   }
 }
