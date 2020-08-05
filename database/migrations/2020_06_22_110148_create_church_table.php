@@ -17,6 +17,7 @@ class CreateChurchTable extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedInteger('religion_id')->nullable();
+            $table->decimal('overall_average')->default(0.0);
             $table->timestamps();
         });
     }

@@ -14,6 +14,16 @@ trait ReligionPresenter {
     return self::array_flatten($religions->map(function($religion){ return $religion->church_addresses; })->toArray());
   }
 
+  public static function all_overall_averages($religions)
+  {
+    return self::array_flatten($religions->map(function($religion){ return $religion->church_averages; })->toArray());
+  }
+
+  public static function all_church_ids($religions)
+  {
+    return self::array_flatten($religions->map(function($religion){ return $religion->church_ids; })->toArray());
+  }
+
   public static function array_flatten($array) {
     if (!is_array($array)) {
       return false;
@@ -47,6 +57,18 @@ trait ReligionPresenter {
       array_push($addresses, $church->address);
     }
     return $addresses;
+  }
+
+  public function getChurchAveragesAttribute()
+  {
+    $churches = $this->churches;
+    return $churches->map(function($church){ return $church->overall_average; })->toArray();
+  }
+
+  public function getChurchIdsAttribute()
+  {
+    $churches = $this->churches;
+    return $churches->map(function($church){ return $church->id; })->toArray();
   }
 
 }

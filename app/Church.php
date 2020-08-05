@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Church extends Model
 {
-    protected $fillable = ['name', 'religion_id'];
+    protected $fillable = ['name', 'religion_id', 'overall_average'];
 
     public function questions()
     {

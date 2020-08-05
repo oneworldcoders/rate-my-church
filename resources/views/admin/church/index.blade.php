@@ -45,16 +45,41 @@ function initMap() {
 
   let markers = locations.map(function(location, i) { return new google.maps.Marker({
       position: location,
-      label: labels[i % labels.length][0]
+      label: String(Math.round(averages[i])),
+      churchId: churchIds[i],
+      contentString: '<div>' +
+                      'Name of Church: ' + churchNames[i]  +'<br>' +
+                      'Address: ' + location.fullname + '<br>' +
+                      'Average rating: ' + averages[i] + '<br>' +
+                      '<div>'
     });
   });
 
   let markerCluster = new MarkerClusterer(map, markers,
       {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-}
 
-let labels = {!! json_encode(App\Religion::all_church_names($religions)) !!};
+  markers.forEach(marker => {
+    let infoWindow = new google.maps.InfoWindow({
+      content: marker.contentString,    
+    })
+
+    new google.maps.event.addListener(marker, 'mouseover', function() {
+      infoWindow.open(map, marker);
+    });
+
+    new google.maps.event.addListener(marker, 'mouseout', function() {
+      infoWindow.close(map, marker);
+    });
+
+    new google.maps.event.addListener(marker, 'click', function() {
+      window.location.href = "/churches/"+this.churchId;
+    });
+  });
+}
+let averages = {!! json_encode(App\Religion::all_overall_averages($religions)) !!}
+let churchNames = {!! json_encode(App\Religion::all_church_names($religions)) !!};
 let locations = {!! json_encode(App\Religion::all_church_addresses($religions), JSON_NUMERIC_CHECK) !!};
+let churchIds = {!! json_encode(App\Religion::all_church_ids($religions)) !!}
 </script>
 
 

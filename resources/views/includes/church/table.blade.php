@@ -21,7 +21,7 @@
                     <a class="btn btn-primary ml-2" href="{{ route('ratings.index', ['church' => $church]) }}">View Ratings</a>
                   @endcan
                   @can('viewAny', App\Church::class)
-                    <a class="btn btn-primary ml-2" href="{{ route('churches.show', $church) }}">Details</a>
+                    <a class="btn btn-primary ml-2" href="{{ route('churches.show', $church) }}">Church Details</a>
                   @endcan
                 </div>
               </li>

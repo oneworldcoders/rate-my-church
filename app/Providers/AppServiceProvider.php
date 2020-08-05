@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Rating;
+use App\Question;
 use App\Observers\RatingsObserver;
+use App\Observers\QuestionObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,5 +28,6 @@ class AppServiceProvider extends ServiceProvider
   public function boot()
   {
     Rating::observe(RatingsObserver::class);
+    Question::observe(QuestionObserver::class);
   }
 }
