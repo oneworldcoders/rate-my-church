@@ -40,9 +40,8 @@
              <div class="form-group row">
                 <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Address') }}</label>
                 <div class="col-md-6">
-                  <input id="address" type="text" name="address[fullname]" class="form-control" placeholder="Full Address" required>
+                  <input id="address" type="text" name="address[fullname]" class="form-control" placeholder="Full Address" required onchange="checkAddress(this.value)">
                 </div>
-                <a class="btn btn-info col-md-2" onclick="checkAddress(document.getElementById('address').value)">{{ __('Check') }}</a>
               </div>
 
               <div class="row justify-content-md-center">
@@ -88,6 +87,8 @@ function checkAddress(fullAddress)
   .then(data => {
     if(data.length === 0){
       document.getElementById('address-error').innerHTML = "couldn't find address";
+      document.getElementById('lat').value = "";
+      document.getElementById('lng').value = "";
     } else {
       document.getElementById('address-error').innerHTML = ""
       document.getElementById('lat').value = data[0].lat;

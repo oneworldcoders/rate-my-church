@@ -89,6 +89,11 @@ class RatingControllerTest extends TestCase
 
   public function test_success_rating_message_in_session()
   {
+    Rating::truncate();
+    $this->post_response = $this->actingAs($this->user)->post(route('ratings.store'), [
+      $this->question->id.'' => $this->score,
+      'church' => $this->church->id,
+    ]);
     $this->post_response->assertSessionHas('success', __('messages.add_success', ['item' => 'ratings']));
   }
 
