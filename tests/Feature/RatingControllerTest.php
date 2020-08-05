@@ -84,7 +84,7 @@ class RatingControllerTest extends TestCase
 
   public function test_redirects_to_home_after_submit()
   {
-    $this->post_response->assertRedirect(route('home'));
+    $this->post_response->assertRedirect(route('churches.index'));
   }
 
   public function test_success_rating_message_in_session()
