@@ -71,6 +71,11 @@ php artisan migrate
 php artisan db:seed
 ```
 
+* start the server
+```
+php artisan serve
+```
+
 ## Testing
 ```
 composer run-script test
@@ -79,4 +84,15 @@ In case the tests are not running, you may need to generate a secret key.
 * Generate secret key
 ```
 php artisan key:generate
+```
+
+## Usage
+There are 2 user types created from the seed data, an admin and a regular user, by default the regular users have no permissions and the admin has to manually assign the users various permissions. Register a user then Log in as an admin and add the user permissions. Each permission will give the user different features.
+
+It is recommended to use different browsers or (same browser but one window in incognito) for the admin and regular user since cookies are used to determine the logged in user.
+
+To log in as an admin
+```
+email: admin@example.com
+password: password
 ```
