@@ -37,9 +37,11 @@
             @endforeach
           </ul>
           <br></br>
-          <div class="offset-md-4">
-            <a class="btn btn-primary" href="{{ route('questions.create') }}">Add a Question</a>
-          </div>
+          @can('create', App\Question::class)
+            <div class="offset-md-4">
+              <a class="btn btn-primary" href="{{ route('questions.create') }}">Add a Question</a>
+            </div>
+          @endcan
         </div>
       </div>
     </div>

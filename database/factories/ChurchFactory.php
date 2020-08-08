@@ -12,5 +12,6 @@ $factory->define(Church::class, function (Faker $faker) {
   return [
     'name' => $faker->unique()->name,
     'religion_id' => $religions->count() > 0 ? array_rand(array_flip($religions->toArray())) : factory(Religion::class)->create(),
+    'overall_average' => 0.0,
   ];
 });
