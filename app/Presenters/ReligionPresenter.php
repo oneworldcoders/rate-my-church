@@ -14,8 +14,7 @@ trait ReligionPresenter {
     return self::array_flatten($religions->map(function($religion){ return $religion->church_addresses; })->toArray());
   }
 
-  public static function array_flatten($array)
-  {
+  public static function array_flatten($array) {
     if (!is_array($array)) {
       return false;
     }

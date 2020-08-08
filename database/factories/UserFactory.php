@@ -20,12 +20,11 @@ use Illuminate\Support\Str;
 */
 
 $factory->define(User::class, function (Faker $faker) {
-    $religions = Religion::all();
+    $religions = Religion::all()->pluck('id');
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'church_id' => factory(Church::class)->create(),
-        'religion_id' => $religions->count() > 0 ? array_rand($religions->toArray()) : factory(Religion::class)->create(),
+        'religion_id' => $religions->count() > 0 ? array_rand(array_flip($religions->toArray())) : factory(Religion::class)->create(),
         'email_verified_at' => now(),
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
         'remember_token' => Str::random(10),

@@ -10,6 +10,7 @@ use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Tests\TestCase;
 use App\User;
 use App\Role;
+use App\Question;
 
 
 /**
@@ -55,6 +56,14 @@ class RatingContext extends TestCase implements Context
     $this->user = factory(User::class)->create();
     $role = factory(Role::class)->create(['name' => $permission]);
     $this->user->roles()->attach($role);
+  }
+
+  /**
+   * @Given A church has questions: :church_id
+   */
+  public function aChurchHasQuestions($church_id)
+  {
+    factory(Question::class)->create(['church_id' => $church_id]);
   }
 
   /**

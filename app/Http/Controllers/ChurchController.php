@@ -43,7 +43,8 @@ class ChurchController extends Controller
     public function create()
     {
         $this->authorize('create', Church::class);
-        return view('admin.church.create');
+        $religions = Religion::all();
+        return view('admin.church.create', compact('religions'));
     }
 
     /**

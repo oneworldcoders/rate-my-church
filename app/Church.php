@@ -6,16 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Church extends Model
 {
-    protected $fillable = ['name', 'religion'];
+    protected $fillable = ['name', 'religion_id'];
 
     public function questions()
     {
         return $this->hasMany(Question::class);
-    }
-
-    public function users()
-    {
-        return $this->hasMany(User::class);
     }
 
     public function address()

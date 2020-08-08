@@ -27,8 +27,8 @@
 
 </div>
 
- <!-- Google Maps -->
- <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclustererplus@4.0.1.min.js"></script>
+<!-- Google Maps -->
+<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclustererplus@4.0.1.min.js"></script>
 
 <script defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKt4p3f8Opos-7Y2W7uOHpyKUcyYA6Cjw&callback=initMap">
@@ -55,7 +55,6 @@ function initMap() {
 
 let labels = {!! json_encode(App\Religion::all_church_names($religions)) !!};
 let locations = {!! json_encode(App\Religion::all_church_addresses($religions), JSON_NUMERIC_CHECK) !!};
-console.log(locations)
 </script>
 
 

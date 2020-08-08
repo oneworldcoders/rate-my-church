@@ -26,9 +26,11 @@
                   <form action="{{ route('questions.destroy', $question) }}" method="POST">
                     <a class="btn btn-secondary" href="{{ route('ratings.show', $question) }}">View Responses</a>
                     
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-danger" type="submit">Delete Question</button>
+                    @can('deleteAny', App\Question::class)                    
+                      @csrf
+                      @method('DELETE')
+                      <button class="btn btn-danger" type="submit">Delete Question</button>
+                    @endcan
                   </form>
                 </div>
               </li>

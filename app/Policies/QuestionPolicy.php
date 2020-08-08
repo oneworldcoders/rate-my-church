@@ -68,6 +68,11 @@ class QuestionPolicy
     //
   }
 
+  public function deleteAny(User $user)
+  {
+    return in_array('delete_questions', $user->roles->pluck('name')->all()) || $user->is_admin;
+  }
+
   /**
    * Determine whether the user can restore the model.
    *

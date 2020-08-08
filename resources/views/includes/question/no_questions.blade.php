@@ -8,6 +8,6 @@
       </div>
     @endif
 
-    No Questions yet for {{ $church_name }}}
+    No Questions yet for {{ $church->name }}
   </div>
 </div>
