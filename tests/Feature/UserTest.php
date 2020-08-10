@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 use App\Religion;
+use App\Role;
 use App\User;
 
 class UserTest extends TestCase
@@ -13,12 +14,18 @@ class UserTest extends TestCase
   use RefreshDatabase;
 
   protected $religion;
+  protected $rate_role;
+  protected $church_role;
+  protected $user;
 	
   protected function setUp(): void
   {
     parent::setUp();
-    
+
     $this->religion = factory(Religion::class)->create();
+    $this->rate_role = factory(Role::class)->create(['name' =>'rate_questions']);
+    $this->church_role = factory(Role::class)->create(['name' =>'view_churches']);
+    $this->user = factory(User::class)->create();
   }
 
   public function test_register_page_receives_all_religions(){
@@ -30,5 +37,15 @@ class UserTest extends TestCase
   {
     $response = $this->get(route('register'));
     $response->assertStatus(200);
+  }
+
+  public function test_user_has_permission_to_rate_by_default()
+  {
+    $this->assertTrue(in_array($this->rate_role->id, $this->user->roles->pluck('id')->all()));
+  }
+
+  public function test_user_has_permission_to_view_churches_by_default()
+  {
+    $this->assertTrue(in_array($this->church_role->id, $this->user->roles->pluck('id')->all()));
   }
 }
