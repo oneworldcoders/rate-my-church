@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\User;
 use App\Role;
+use App\RoleUser;
 
 class PermissionController extends Controller
 {
@@ -17,7 +18,10 @@ class PermissionController extends Controller
   public function index()
   {
     $users = User::all();
-    return view('permission.index', compact('users'));
+    $roles = Role::all();
+//    $permissions = RoleUser::all();
+  //  dd($permissions->first());
+    return view('permission.index', compact('users', 'roles'));
   }
 
   /**
@@ -42,10 +46,29 @@ class PermissionController extends Controller
   {
     $this->authorize('create', User::class);
     $user = User::find($request->input('user'));
+//    dd($request->input('role'));
     $role = Role::find($request->input('role'));
     $user->roles()->attach($role);
     return redirect()->route('permissions.index')
                      ->with('success', __('messages.add_success', ['item' => 'permission']));
+  }
+
+  public function save(Request $request)
+  {
+    $permissions = $request->input('permissions');
+    foreach($permissions as $permission){
+      $permission = json_decode($permission, true);
+      if($permission['checked']){
+        RoleUser::create($permission);
+      }else{
+        $user_id = $permission['user_id'];
+        $role_id = $permission['role_id'];
+        RoleUser::where(['user_id' => $user_id, 'role_id' => $role_id])->delete();
+      }
+    }
+
+    return redirect()->route('permissions.index')
+                   ->with('success', __('messages.add_success', ['item' => 'permissions']));
   }
 
   /**
@@ -88,7 +111,7 @@ class PermissionController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy($id)
+  public function destroy(Request $request)
   {
     //
   }

@@ -4,26 +4,18 @@
 
 <div class="container">
   <div class="row justify-content-center">
-    <div class="col-md-8">
+    <div class="col-md-12">
       @include('includes.auth.success')
 
       <div class="card">
-        <div class="card-header">{{ __('User Permissions') }}</div>
+        <div class="card-header">
+          <div class="offset-md-4">
+            {{ __('User Permissions') }}
+          </div>
+        </div>
 
         <div class="card-body">
-          <ul class="list-group list-group-flush">
-            @foreach ($users as $user)
-              @foreach ($user->roles as $role)
-                <li class="list-group-item">
-                  <p>{{ $user->name }} - {{ $role->description }}</p>
-                </li>
-              @endforeach
-            @endforeach
-          </ul>
-
-          <div class="offset-md-4">
-            <a class="btn btn-primary" href="{{ route('permissions.create') }}">Add Permissions</a>
-          </div>
+          @include('includes.permission.table')
         </div>
       </div>
     </div>
