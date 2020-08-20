@@ -19,8 +19,6 @@ class PermissionController extends Controller
   {
     $users = User::all();
     $roles = Role::all();
-//    $permissions = RoleUser::all();
-  //  dd($permissions->first());
     return view('permission.index', compact('users', 'roles'));
   }
 
@@ -46,7 +44,6 @@ class PermissionController extends Controller
   {
     $this->authorize('create', User::class);
     $user = User::find($request->input('user'));
-//    dd($request->input('role'));
     $role = Role::find($request->input('role'));
     $user->roles()->attach($role);
     return redirect()->route('permissions.index')
@@ -111,7 +108,7 @@ class PermissionController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy(Request $request)
+  public function destroy($id)
   {
     //
   }
