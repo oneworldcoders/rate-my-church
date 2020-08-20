@@ -29,12 +29,13 @@ class RatingControllerTest extends TestCase
   protected function setUp(): void
   {
     parent::setUp();
-    $this->user = factory(User::class)->create();
+
     $this->role = factory(Role::class)->create(['name' => 'rate_questions']);
-    $this->give_permissions($this->user, $this->role);
-
+    $this->user = factory(User::class)->create();
+    
     $this->unauthorized_user = factory(User::class)->create();
-
+    $this->remove_permission($this->unauthorized_user, $this->role);
+    
     $this->admin = factory(User::class)->create(['is_admin' => 1]);
     $this->church = factory(Church::class)->create();
     $this->question = factory(Question::class)->create(['church_id' => $this->church]);
@@ -52,6 +53,11 @@ class RatingControllerTest extends TestCase
   protected function give_permissions($user, $role)
   {
     $user->roles()->attach($role);
+  }
+
+  protected function remove_permission($user, $role)
+  {
+    $user->roles()->detach($role);
   }
 
   public function test_unauthorized_users_cannot_view_ratings()
@@ -84,7 +90,7 @@ class RatingControllerTest extends TestCase
 
   public function test_redirects_to_home_after_submit()
   {
-    $this->post_response->assertRedirect(route('home'));
+    $this->post_response->assertRedirect(route('churches.index'));
   }
 
   public function test_success_rating_message_in_session()

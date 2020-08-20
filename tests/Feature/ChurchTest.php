@@ -8,6 +8,7 @@ use Tests\TestCase;
 use App\Church;
 use App\User;
 use App\Role;
+use App\Address;
 
 class ChurchTest extends TestCase
 {
@@ -132,8 +133,10 @@ class ChurchTest extends TestCase
   }
 
   public function test_church_show_route_renders_church_show_view()
-  {
+  { 
+    $this->withoutExceptionHandling();
     $church = factory(Church::class)->create();
+    $address = factory(Address::class)->create(['church_id' => $church->id]); 
     $response = $this->get(route('churches.show', $church));
     $response->assertViewIs('admin.church.show');
   }
@@ -141,6 +144,7 @@ class ChurchTest extends TestCase
   public function test_church_show_route_contains_a_church()
   {
     $church = factory(Church::class)->create();
+    $address = factory(Address::class)->create(['church_id' => $church->id]); 
     $response = $this->get(route('churches.show', $church));
     $response->assertViewHas('church', $church);
   }

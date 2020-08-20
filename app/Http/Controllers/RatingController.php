@@ -45,7 +45,7 @@ class RatingController extends Controller
     $data = $request->input();
     $model = new Rating;
     $service->updateRatings($user, $questions, $data, $model);
-    return redirect()->action('HomeController@index')
+    return redirect()->route('churches.index')
                      ->with('success', __('messages.add_success', ['item' => 'ratings']));
   }
 

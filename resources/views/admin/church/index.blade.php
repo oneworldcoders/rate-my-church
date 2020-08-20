@@ -13,6 +13,7 @@
         <div class="card-body">
           @include('includes.church.table')
           @can('create', App\Church::class)
+          <br><br>
             <div class="offset-md-4">
               <a class="btn btn-primary" href="{{ route('churches.create') }}">Add a Church</a>
             </div>

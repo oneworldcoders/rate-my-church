@@ -13,10 +13,9 @@ class DatabaseSeeder extends Seeder
   {
     $this->call(ReligionSeeder::class);
     $this->call(ChurchSeeder::class);
+    $this->call(RoleSeeder::class);
     $this->call(UserSeeder::class);
     $this->call(QuestionSeeder::class);
-    $this->call(RoleSeeder::class);
-    $this->call(PermissionSeeder::class);
     $this->call(RatingSeeder::class);
     $this->call(AddressSeeder::class);
   }
