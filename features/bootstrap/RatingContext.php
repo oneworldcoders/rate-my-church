@@ -11,6 +11,8 @@ use Tests\TestCase;
 use App\User;
 use App\Role;
 use App\Question;
+use App\Survey;
+use App\Church;
 
 
 /**
@@ -59,12 +61,21 @@ class RatingContext extends TestCase implements Context
   }
 
   /**
-   * @Given A church has questions: :church_id
+   * @Given A survey exists
    */
-  public function aChurchHasQuestions($church_id)
+  public function aSurveyExists()
   {
-    factory(Question::class)->create(['church_id' => $church_id]);
+    factory(Survey::class)->create();
   }
+
+  /**
+   * @Given A church exists with id : :church_id
+   */
+  public function aChurchExistsWithId($church_id)
+  {
+    factory(Church::class)->create(['id' => $church_id]);
+  }
+
 
   /**
    * @When I visit the page: :url

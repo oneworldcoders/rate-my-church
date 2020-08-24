@@ -9,6 +9,7 @@ use App\Church;
 use App\User;
 use App\Role;
 use App\Address;
+use App\Survey;
 
 class ChurchTest extends TestCase
 {
@@ -134,10 +135,10 @@ class ChurchTest extends TestCase
 
   public function test_church_show_route_renders_church_show_view()
   { 
-    $this->withoutExceptionHandling();
     $church = factory(Church::class)->create();
     $address = factory(Address::class)->create(['church_id' => $church->id]); 
-    $response = $this->get(route('churches.show', $church));
+    $survey = factory(Survey::class)->create();
+    $response = $this->get(route('churches.show', $church->id));
     $response->assertViewIs('admin.church.show');
   }
 
@@ -145,6 +146,7 @@ class ChurchTest extends TestCase
   {
     $church = factory(Church::class)->create();
     $address = factory(Address::class)->create(['church_id' => $church->id]); 
+    $survey = factory(Survey::class)->create();
     $response = $this->get(route('churches.show', $church));
     $response->assertViewHas('church', $church);
   }

@@ -4,8 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
-// use Laracasts\Presenter\PresentableTrait;
-
 use App\Presenters\RatingPresenter;
 
 class Rating extends Model
@@ -19,9 +17,9 @@ class Rating extends Model
     return $this->belongsTo(User::class);
   }
 
-  public function question()
+  public function church_question()
   {
-    return $this->belongsTo(Question::class)->withTrashed();
+    return $this->belongsTo(ChurchQuestion::class);
   }
-
+ 
 }

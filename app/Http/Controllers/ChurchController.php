@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Providers\RouteServiceProvider;
 use App\Church;
+use App\Question;
 use App\Address;
 use App\Religion;
+use App\Survey;
+use App\Rating;
+use App\ChurchQuestion;
 use Illuminate\Http\Request;
 use App\Http\Requests\ChurchRequest;
 
@@ -69,7 +73,10 @@ class ChurchController extends Controller
      */
     public function show(Church $church)
     {
-        return view('admin.church.show', compact('church'));
+      $survey = Survey::all()->last();
+      $church_questions = ChurchQuestion::where(['church_id' => $church->id, 'survey_id' => $survey->id])->get();
+
+      return view('admin.church.show', compact('church', 'church_questions'));
     }
 
     /**

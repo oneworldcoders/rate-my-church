@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Rating;
+use App\ChurchQuestion;
 
 class RatingsObserver
 {
@@ -14,15 +15,15 @@ class RatingsObserver
    */
   public function created(Rating $rating)
   {
-    $question = $rating->question;
+    $church_question = $rating->church_question;
     $sum = 0.0;
-    $ratings = $rating->where(['question_id'=>$question->id])->get();
+    $ratings = $rating->where(['church_question_id' => $church_question->id])->get();
     
     foreach($ratings as $rating){
       $sum += $rating->score;
     }
     $count = $ratings->count();
     $average = $sum/$count;
-    $question->update(['average_rating' => number_format((float)$average, 2)]);
+    $church_question->update(['average_rating' => number_format((float)$average, 2)]);
   }
 }

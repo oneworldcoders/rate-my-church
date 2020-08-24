@@ -27,7 +27,6 @@ class QuestionRequest extends FormRequest
             'title' => 'required',
             'description' => 'required',
             'type' => 'required',
-            'church_id' => 'required'
         ];
     }
 }

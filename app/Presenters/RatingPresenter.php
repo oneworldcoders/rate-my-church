@@ -11,7 +11,17 @@ trait RatingPresenter {
 
   public function getDescriptionAttribute(): string
   {
-      return $this->question->description;
+      return $this->church_question->question->description;
+  }
+
+  public function getQuestionAttribute()
+  {
+      return $this->church_question->question;
+  }
+
+  public function getChurchIdAttribute()
+  {
+      return $this->church_question->church->id;
   }
 
 }

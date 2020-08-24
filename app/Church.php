@@ -8,11 +8,6 @@ class Church extends Model
 {
     protected $fillable = ['name', 'religion_id', 'overall_average'];
 
-    public function questions()
-    {
-        return $this->hasMany(Question::class);
-    }
-
     public function address()
     {
       return $this->hasOne(Address::class);
@@ -21,5 +16,15 @@ class Church extends Model
     public function religion()
     {
       return $this->belongsTo(Religion::class);
+    }
+
+    public function ratings()
+    {
+      return $this->hasMany(Rating::class);
+    }
+
+    public function church_questions()
+    {
+      return $this->hasMany(ChurchQuestion::class);
     }
 }
