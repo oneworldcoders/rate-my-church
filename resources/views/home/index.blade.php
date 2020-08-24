@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
   <div class="row justify-content-center">
-    <div class="col-md-8">
+    <div class="col-md-12">
       @include('includes.auth.success')
 
       <div class="card">
@@ -25,6 +25,9 @@
             @endcan
             @can('viewAny', App\Rating::class)
               <a id="rate-button" class="btn btn-primary" href="{{ route('ratings.index') }}">View Ratings</a>
+             @endcan
+            @can('viewAny', App\Survey::class)
+              <a class="btn btn-primary" href="{{ route('surveys.index') }}">Surveys</a>
             @endcan
           </div>
         </div>
