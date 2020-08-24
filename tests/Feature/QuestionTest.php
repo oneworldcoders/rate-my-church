@@ -26,13 +26,12 @@ class QuestionTest extends TestCase
     $this->admin = factory(User::class)->create(['is_admin' => 1]);
     $this->user = factory(User::class)->create();
     $this->church = factory(Church::class)->create();
-    $this->question = factory(Question::class)->create(['church_id' => $this->church]);
+    $this->question = factory(Question::class)->create();
 
     $this->response = $this->actingAs($this->admin)->post(route('questions.store'), [
       'title' => 'Test Title',
       'description' => 'Test Description',
       'type' => 'Test Type',
-      'church_id' => $this->church->id
     ]);
   }
 
@@ -61,9 +60,9 @@ class QuestionTest extends TestCase
     $this->assertCount(2, Question::all());
   }
 
-  public function test_redirects_to_the_church_after_submit()
+  public function test_redirects_to_the_home_page_after_submit()
   {
-    $this->response->assertRedirect(route('churches.show', $this->church));
+    $this->response->assertRedirect(route('home'));
   }
 
   public function test_success_message_in_session()
@@ -76,7 +75,6 @@ class QuestionTest extends TestCase
     $response = $this->post(route('questions.store'), [
       'description' => 'Test Description',
       'type' => 'Test Type',
-      'church_id' => $this->church->id
     ]);
 
     $response->assertSessionHasErrors('title');
@@ -87,7 +85,6 @@ class QuestionTest extends TestCase
     $response = $this->post(route('questions.store'), [
       'title' => 'Test Test',
       'type' => 'Test Type',
-      'church_id' => $this->church->id
     ]);
 
     $response->assertSessionHasErrors('description');
@@ -98,26 +95,9 @@ class QuestionTest extends TestCase
     $response = $this->post(route('questions.store'), [
       'title' => 'Test Test',
       'description' => 'Test Description',
-      'church_id' => $this->church->id
     ]);
 
     $response->assertSessionHasErrors('type');
-  }
-  
-  public function test_church_id_is_required()
-  {
-    $response = $this->post(route('questions.store'), [
-      'title' => 'Test Test',
-      'description' => 'Test Description',
-      'type' => 'Test Type'
-    ]);
-
-    $response->assertSessionHasErrors('church_id');
-  }
-
-  public function test_questions_page_receives_churches(){
-    $response = $this->get(route('questions.create'));
-    $response->assertViewHas('churches', Church::all());
   }
 
   public function test_users_can_view_question_create_page()
@@ -138,9 +118,9 @@ class QuestionTest extends TestCase
     $this->assertFalse(Question::where(['id'=> $this->question->id])->exists());
   }
 
-  public function test_redirects_to_church_questions_after_deleting()
+  public function test_redirects_to_home_page_after_deleting()
   {
     $response = $this->actingAs($this->admin)->delete(route('questions.destroy', $this->question));
-    $response->assertRedirect(route('churches.show', $this->church));
+    $response->assertRedirect(route('home'));
   }
  }

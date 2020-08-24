@@ -33,8 +33,7 @@ class QuestionController extends Controller
   public function create()
   {
     $this->authorize('create', Question::class);
-    $churches = Church::all();
-    return view('admin.question.create', compact('churches'));
+    return view('admin.question.create');
   }
 
   /**
@@ -46,7 +45,7 @@ class QuestionController extends Controller
   public function store(QuestionRequest $request)
   {
     $question = Question::create($request->all());
-    return redirect()->route('churches.show', $question->church)
+    return redirect()->route('home')
                      ->with('success', __('messages.add_success', ['item' => 'question']));
   }
 
@@ -94,7 +93,7 @@ class QuestionController extends Controller
   {
     $church = $question->church;
     $question->delete();
-    return redirect()->action('ChurchController@show', $church)
+    return redirect()->route('home')
                      ->with(['success' =>  __('messages.delete_success', ['item' => 'question'])]);
   }
 }

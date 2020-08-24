@@ -3,12 +3,10 @@
   <div class="card-header">{{ $church->name }}</div>
 
   <div class="card-body">
-    <form action="{{ route('ratings.store') }}" method="POST">
+    <form action="{{ route('ratings.store', ['church' => $church->id, 'survey' => $survey->id]) }}" method="POST">
       @csrf
 
-      <input type="hidden" name="church" value="{{$church->id}}">
-
-      @foreach ($questions as $question)
+      @foreach ($survey->questions as $question)
         <div class="form-group row">
           <label for="  {{ $question->id }} " class="col-md-4 col-form-label text-md-right">{{ __($question->description ) }}</label>
           <div class="col-md-6">

@@ -11,6 +11,5 @@ $factory->define(Question::class, function (Faker $faker) {
         'title' => $faker->title,
         'description' => $faker->sentence,
         'type' => $faker->word,
-        'church_id' => factory(Church::class)->create()
     ];
 });

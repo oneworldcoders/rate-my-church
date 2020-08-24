@@ -15,18 +15,6 @@
               @csrf
 
               <div class="form-group row">
-                <label for="church_id" class="col-md-4 col-form-label text-md-right">{{ __('Church') }}</label>
-                <div class="col-md-6">
-                  <select name="church_id" id="church_id" class="form-control">
-                    <option value="" disabled>Choose a Church</option>
-                    @foreach ($churches as $church)
-                      <option value=" {{ $church->id }} ">{{ $church->name }}</option>
-                    @endforeach
-                  </select>
-                </div>
-              </div>
-
-              <div class="form-group row">
                 <label for="title" class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
                 <div class="col-md-6">
                   <input type="text" name="title" class="form-control" placeholder="Question Title">

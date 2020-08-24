@@ -20,12 +20,14 @@ Route::get('/', function () {
 Route::resource('churches', 'ChurchController');
 Route::resource('questions', 'QuestionController');
 //Route::resource('users', 'UserController');
-Route::resource('ratings', 'RatingController');
+Route::resource('ratings', 'RatingController')->except(['show']);
 Route::resource('permissions', 'PermissionController')->except(['destroy', 'store']);
 Route::resource('roles', 'RoleController');
+Route::resource('surveys', 'SurveyController');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/admin', 'AdminController@index')->name('admin');
 Route::post('/permissions', 'PermissionController@save')->name('permissions.save');
+Route::get('/church_questions/{church_question}', 'RatingController@view_responses')->name('ratings.view_responses');

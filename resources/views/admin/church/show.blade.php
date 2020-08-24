@@ -39,18 +39,18 @@
           <div class="card-header">{{__('Questions')}}</div>
           <div class="card-body">
             <ul class="list-group list-group-flush">
-              @foreach ($church->questions as $question)
+              @foreach ($church_questions as $church_question)
                 <li class="list-group-item">
                   <div class="row">
                     <div class="col-md-4">
                       <a>
-                        <strong>{{ $question->title }}</strong>
+                        <strong>{{ $church_question->question_title }}</strong>
                         <br>
-                        <p>{{ $question->description }}</p>
+                        <p>{{ $church_question->question_description }}</p>
                       </a>
                     </div>
-                    <form action="{{ route('questions.destroy', $question) }}" method="POST">
-                      <a class="btn btn-secondary" href="{{ route('ratings.show', $question) }}">View Responses</a>
+                    <form action="{{ route('questions.destroy', $church_question->question) }}" method="POST">
+                      <a class="btn btn-secondary" href="{{ route('ratings.view_responses', $church_question->id) }}">View Responses</a>
                     
                       @can('deleteAny', App\Question::class)                    
                         @csrf

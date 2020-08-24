@@ -11,13 +11,18 @@ class Question extends Model
 
   protected $guarded = [];
 
-  public function church()
-  {
-    return $this->belongsTo(Church::class);
-  }
-
   public function ratings()
   {
     return $this->hasMany(Rating::class);
+  }
+
+  public function surveys()
+  {
+    return $this->belongsToMany(Survey::class);
+  }
+
+  public function church_questions()
+  {
+    return $this->hasMany(ChurchQuestion::class);
   }
 }

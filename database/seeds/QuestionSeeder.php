@@ -13,9 +13,6 @@ class QuestionSeeder extends Seeder
    */
   public function run()
   {
-    $churches = Church::all();
-    foreach($churches as $church){
-      factory(Question::class)->create(['church_id' => $church, 'title' => 'Choir']);
-    }
+    factory(Question::class, 5)->create();
   }
 }

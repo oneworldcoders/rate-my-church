@@ -6,6 +6,7 @@ Feature: Rating Authentication
    
   Scenario: Can rate a chuch with permission
     Given I am a user with permission: 'rate_questions'
-    And A church has questions: '1'
+    And A survey exists
+    And A church exists with id : 1
     When I visit the page: '/ratings/create?church=1'
     Then I get a response: 200
