@@ -33,7 +33,6 @@ class RatingControllerTest extends TestCase
   protected function setUp(): void
   {
     parent::setUp();
-
     $this->role = factory(Role::class)->create(['name' => 'rate_questions']);
     $this->user = factory(User::class)->create();
     
@@ -56,7 +55,7 @@ class RatingControllerTest extends TestCase
     ]);
 
     $this->create_response = $this->actingAs($this->user)->get(route('ratings.create', ['church' => $this->church]));
-    $this->index_response = $this->actingAs($this->user)->get(route('ratings.index', ['church' => $this->church]));
+    $this->index_response = $this->actingAs($this->user)->get(route('ratings.index', ['church' => $this->church, 'survey' => $this->survey]));
   }
 
   protected function give_permissions($user, $role)
@@ -125,12 +124,19 @@ class RatingControllerTest extends TestCase
 
   public function test_response_page_contains_ratings()
   {
-    $this->index_response->assertViewHas('ratings', $this->user->questions);
+    $ratings = Rating::where(['user_id' => $this->user->id, 'church_question_id' => $this->church_question->id])->get();
+    $this->index_response->assertViewHas('ratings');
+    $this->assertEquals($this->index_response['ratings']->count(), $ratings->count());
   }
 
   public function test_response_page_contains_church_name()
   {
     $this->index_response->assertViewHas('church_name', $this->church->name);
+  }
+
+  public function test_ratings_index_receives_chart_data()
+  {
+    $this->index_response->assertViewHas('chart_data');
   }
 
   public function test_admin_can_view_ratings()
@@ -157,5 +163,4 @@ class RatingControllerTest extends TestCase
     $updated_church_question = ChurchQuestion::find($this->church_question->id);
     $this->assertEquals($this->score, $updated_church_question->average_rating);
   }
-
 }

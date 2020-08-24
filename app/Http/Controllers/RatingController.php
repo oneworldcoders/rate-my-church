@@ -25,8 +25,12 @@ class RatingController extends Controller
     $user = auth()->user();
     $church = Church::find($request->church);
     $church_name = $church->name;
-    $ratings = $user->ratings;
-    return view('users.ratings.index', compact('church_name', 'ratings'));
+    $survey = $request->survey ? Survey::find($request->survey) : Survey::all()->last();
+    $church_question_ids = ChurchQuestion::where(['church_id' => $church->id, 'survey_id' => $survey->id])->pluck('id');
+    $ratings = $user->ratings->whereIn('church_question_id', $church_question_ids);
+    $rating_bar_chart = new RatingBarChart('score', [], false);
+    $chart_data = $rating_bar_chart->makeChart($ratings);
+    return view('users.ratings.index', compact('church_name', 'ratings', 'chart_data'));
   }
 
   public function create(Request $request)
@@ -71,7 +75,7 @@ class RatingController extends Controller
 
     return view('admin.question.show', compact('ratings', 'church_name', 'question', 'chart_data'));
   }
-  
+
   /**
    * Show the form for editing the specified resource.
    *
