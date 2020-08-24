@@ -21,10 +21,11 @@ Route::resource('churches', 'ChurchController');
 Route::resource('questions', 'QuestionController');
 //Route::resource('users', 'UserController');
 Route::resource('ratings', 'RatingController');
-Route::resource('permissions', 'PermissionController');
+Route::resource('permissions', 'PermissionController')->except(['destroy', 'store']);
 Route::resource('roles', 'RoleController');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/admin', 'AdminController@index')->name('admin'); 
+Route::get('/admin', 'AdminController@index')->name('admin');
+Route::post('/permissions', 'PermissionController@save')->name('permissions.save');
