@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Church extends Model
 {
     protected $fillable = ['name', 'religion_id', 'overall_average'];
+    protected $with = ['address'];
 
     public function address()
     {
