@@ -9,9 +9,9 @@
 
             <div class="card-body">
               <ol class="list-group list-group-flush">
-                @foreach ($ratings as $index => $rating)
+                @foreach ($ratings as $rating)
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Question: {{ $index }}: {{ $rating->description }} <span class="badge badge-primary badge-pill">{{ $rating->score }}</span> </li>
+                    Question: {{ $loop->index + 1 }}: {{ $rating->description }} <span class="badge badge-primary badge-pill">{{ $rating->score }}</span> </li>
                 @endforeach
               </ol>
 

@@ -45,7 +45,7 @@ class RatingControllerTest extends TestCase
 
     $this->survey = factory(Survey::class)->create();
     $this->survey->questions()->attach([$this->question->id]);
-    $this->church_question = factory(ChurchQuestion::class)->create(['church_id' => $this->church->id, 'question_id' => $this->question->id, 'survey_id' => $this->survey->id]);
+    $this->church_question = ChurchQuestion::create(['church_id' => $this->church->id, 'question_id' => $this->question->id, 'survey_id' => $this->survey->id]);
     
     $this->score = 1;
     $this->post_response = $this->actingAs($this->user)->post(route('ratings.store'), [
@@ -127,6 +127,17 @@ class RatingControllerTest extends TestCase
     $ratings = Rating::where(['user_id' => $this->user->id, 'church_question_id' => $this->church_question->id])->get();
     $this->index_response->assertViewHas('ratings');
     $this->assertEquals($this->index_response['ratings']->count(), $ratings->count());
+  }
+
+  public function test_response_page_contains_latest_ratings_even_with_survey_deleted()
+  {
+    $ratings = collect();
+    $rating = Rating::where(['user_id' => $this->user->id, 'church_question_id' => $this->church_question->id])->get();
+    $this->survey->delete(); 
+
+    $index_response = $this->actingAs($this->user)->get(route('ratings.index', ['church' => $this->church, 'survey' => $this->survey->id]));
+    $index_response->assertViewHas('ratings');
+    $this->assertEquals($index_response['ratings']->count(), $rating->count());
   }
 
   public function test_response_page_contains_church_name()
