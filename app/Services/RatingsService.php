@@ -11,7 +11,11 @@ class RatingsService {
   {
     foreach($questions as $question)
     {
-      $church_question = ChurchQuestion::firstOrCreate(['question_id' => $question->id, 'church_id' => $church_id, 'survey_id' => $survey->id]);
+      $church_question = ChurchQuestion::firstOrCreate([
+        'question_id' => $question->id,
+        'church_id' => $church_id,
+        'survey_id' => $survey->id
+      ]);
       Rating::create([
         'user_id' => $user->id,
         'church_question_id' => $church_question->id,

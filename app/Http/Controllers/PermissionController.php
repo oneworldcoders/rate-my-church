@@ -15,9 +15,13 @@ class PermissionController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function index()
+  public function index(Request $request)
   {
-    $users = User::with('roles')->get();
+    if ($request->search){
+      $users = User::with('roles')->where('name', 'ilike', '%'.$request->search.'%')->get();
+    } else {
+      $users = User::with('roles')->get();
+    }
     $roles = Role::all();
     return view('permission.index', compact('users', 'roles'));
   }

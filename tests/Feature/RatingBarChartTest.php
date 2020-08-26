@@ -41,7 +41,7 @@ class RatingBarChartTest extends TestCase
   public function test_scores_are_set_to_dataset_values()
   {
     $scoreCount = [2, 2, 2, 1, 0];
-    $this->response = $this->rating_bar_chart->makeChart($this->ratings);
+    $this->response = $this->rating_bar_chart->makeChartAverage($this->ratings);
     $this->assertEquals($this->response['datasets'][0]['data'], $scoreCount);
   }
 
@@ -49,7 +49,7 @@ class RatingBarChartTest extends TestCase
   {
     $maxScore = 10;
     $expected = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    $this->response = $this->rating_bar_chart->makeChart($this->ratings, $maxScore);
+    $this->response = $this->rating_bar_chart->makeChartAverage($this->ratings, $maxScore);
     $this->assertEquals($this->response['labels'], $expected);
   }
 

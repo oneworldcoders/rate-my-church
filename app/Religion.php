@@ -12,12 +12,12 @@ class Religion extends Model
 
   protected $guarded = [];
 
-  protected function users()
+  public function users()
   {
     return $this->hasMany(User::class);
   }
   
-  protected function churches()
+  public function churches()
   {
     return $this->hasMany(Church::class);
   }
