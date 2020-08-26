@@ -24,6 +24,8 @@ DB_PORT=5432
 DB_DATABASE=rate_my_church
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
+
+GOOGLE_MAPS_API_KEY=<your-google-maps-api-key>
 ```
 
 * build the image
@@ -58,6 +60,8 @@ DB_PORT=3306
 DB_DATABASE=laravel
 DB_USERNAME=root
 DB_PASSWORD=
+
+GOOGLE_MAPS_API_KEY=<your-google-maps-api-key>
 ```
 
 * install dependencies

@@ -12,28 +12,42 @@
         <div class="card-header">{{ __($church->name) }}</div>
 
         <div class="card-body">
-          <div class="card-header">{{ __('Details') }}</div>
-          <div class="card-body">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">
-                <div class="row">
-                  <div class="col-md-4 text-md-right">{{ __('Rating:') }}</div>
-                  <div>{{ $church->overall_average }}</div>
-                </div>
-              </li>
-              <li class="list-group-item">
-                <div class="row">
-                  <div class="col-md-4 text-md-right">{{ __('Religion:') }}</div>
-                  <div>{{ $church->religion->name }}</div>
-                </div>
-              </li>
-              <li class="list-group-item">
-                <div class="row">
-                  <div class="col-md-4 text-md-right">{{ __('Address:') }}</div>
-                  <div>{{ $church->address->fullname }}</div>
-                </div>
-              </li>
-            </ul>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card-header">{{ __('Details') }}</div>
+              <div class="card-body">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <div class="row">
+                      <div class="col-md-4 text-md-right">{{ __('Rating:') }}</div>
+                      <div>{{ $church->overall_average }}</div>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="row">
+                      <div class="col-md-4 text-md-right">{{ __('Religion:') }}</div>
+                      <div>{{ $church->religion->name }}</div>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="row">
+                      <div class="col-md-4 text-md-right">{{ __('Address:') }}</div>
+                      <div>{{ $church->address->fullname }}</div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-6" style="height:300px">
+              <iframe
+                width="100%"
+                height="100%"
+                frameborder="0" style="border:0"
+                src="https://www.google.com/maps/embed/v1/place?key={{env('GOOGLE_MAPS_API_KEY')}}
+                  &q={{$church->name}}
+                  &zoom=13" allowfullscreen>
+              </iframe>
+            </div>
           </div>
           
           <div class="card-header">{{__('Questions')}}</div>
