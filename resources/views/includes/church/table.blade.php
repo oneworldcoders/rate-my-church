@@ -18,7 +18,7 @@
                   <label class="col-md-4 text-md-right">{{ $church->name }}</label>
                   @can('create', App\Rating::class)
                     <a class="btn btn-primary ml-2" href="{{ route('ratings.create', ['church' => $church]) }}">Rate Church</a>
-                    <a class="btn btn-primary ml-2" href="{{ route('ratings.index', ['church' => $church]) }}">View Ratings</a>
+                    <a class="btn btn-primary ml-2" href="{{ route('ratings.church_ratings_index', ['church' => $church]) }}">View Ratings</a>
                   @endcan
                   @can('viewAny', App\Church::class)
                     <a class="btn btn-primary ml-2" href="{{ route('churches.show', $church) }}">Church Details</a>
