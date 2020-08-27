@@ -38,6 +38,50 @@ class PermissionControllerTest extends TestCase
     $response->assertViewHas('users');
   }
 
+  public function test_permission_search_by_username()
+  {
+    $response = $this->get(route('permissions.index', ['name' => $this->user->name]));
+    $response->assertViewHas('users');
+    $this->assertEquals($this->user->id, $response['users']->first()->id);
+  }
+
+  public function test_permission_search_name_ignores_case()
+  {
+    $response = $this->get(route('permissions.index', ['name' => strtolower($this->user->name)]));
+    $response->assertViewHas('users');
+    $this->assertEquals($this->user->id, $response['users']->first()->id);
+  }
+
+  public function test_permission_search_matches_incomplete_names()
+  {
+    $response = $this->get(route('permissions.index', ['name' => substr($this->user->name, 0, 5)]));
+    $response->assertViewHas('users');
+    $this->assertEquals($this->user->id, $response['users']->first()->id);
+  }
+
+  public function test_permission_search_by_email()
+  {
+    $this->withoutExceptionHandling();
+    $response = $this->get(route('permissions.index', ['email' => $this->user->email]));
+    $response->assertViewHas('users');
+    $this->assertEquals($this->user->id, $response['users']->first()->id);
+  }
+
+  public function test_permission_search_email_ignores_case()
+  {
+    $user = factory(User::class)->create(['email' => 'Email@Example.com']);
+    $response = $this->get(route('permissions.index', ['email' => strtolower($user->email)]));
+    $response->assertViewHas('users');
+    $this->assertEquals($user->id, $response['users']->first()->id);
+  }
+
+  public function test_permission_search_matches_incomplete_emails()
+  {
+    $response = $this->get(route('permissions.index', ['email' => substr($this->user->email, 0, 5)]));
+    $response->assertViewHas('users');
+    $this->assertEquals($this->user->id, $response['users']->first()->id);
+  }
+
   public function test_permission_store_has_success_message()
   {
     $response = $this->actingAs($this->admin)->post(route('permissions.save', [

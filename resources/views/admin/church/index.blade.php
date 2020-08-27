@@ -78,10 +78,10 @@ function initMap() {
     });
   });
 }
-let averages = {!! json_encode(App\Religion::all_overall_averages($religions)) !!}
-let churchNames = {!! json_encode(App\Religion::all_church_names($religions)) !!};
-let locations = {!! json_encode(App\Religion::all_church_addresses($religions), JSON_NUMERIC_CHECK) !!};
-let churchIds = {!! json_encode(App\Religion::all_church_ids($religions)) !!}
+let averages = {!! json_encode(App\Church::all_overall_averages($churches)) !!}
+let churchNames = {!! json_encode(App\Church::all_church_names($churches)) !!};
+let locations = {!! json_encode(App\Church::all_church_addresses($churches), JSON_NUMERIC_CHECK) !!};
+let churchIds = {!! json_encode(App\Church::all_church_ids($churches)) !!}
 </script>
 
 

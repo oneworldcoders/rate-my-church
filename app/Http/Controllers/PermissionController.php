@@ -17,8 +17,10 @@ class PermissionController extends Controller
    */
   public function index(Request $request)
   {
-    if ($request->search){
-      $users = User::with('roles')->where('name', 'ilike', '%'.$request->search.'%')->get();
+    if ($request->name || $request->email){
+      $users = User::with('roles')->whereRaw(
+        "LOWER(name) LIKE ? AND LOWER(email) LIKE ?", ['%'.strtolower($request->name).'%', '%'.strtolower($request->email).'%']
+      )->get();
     } else {
       $users = User::with('roles')->get();
     }

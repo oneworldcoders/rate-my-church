@@ -3,7 +3,8 @@
 <table class='table'>
   <thead class="thead-dark">
     <tr>
-      <th scope='col'>User name</th>
+      <th scope='col'>Username</th>
+      <th scope='col'>Email</th>
       @foreach($roles as $role)
         <th scope='col'>{{ $role->name }}</th>
       @endforeach
@@ -15,6 +16,7 @@
       @foreach($users as $user)
         <tr>
           <td> {{$user->name}} </td>
+          <td> {{$user->email}} </td>
           @foreach($roles as $role)
             <td>
               <input
