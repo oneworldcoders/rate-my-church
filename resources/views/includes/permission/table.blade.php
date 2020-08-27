@@ -20,7 +20,7 @@
               <input
                 type='checkbox'
                 onclick="permission({{$user->id}}, {{$role->id}}, this.checked)"
-                {{ in_array($role->name, $user->roles()->pluck('name')->toArray()) ? 'checked' : ''}}
+                {{ in_array($role->name, $user->roles->pluck('name')->toArray()) ? 'checked' : ''}}
               >
             </td>
           @endforeach
