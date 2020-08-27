@@ -95,7 +95,7 @@ class SurveyController extends Controller
    */
   public function destroy(Survey $survey)
   {
-    $this->authorize('delete', Survey::class);
+    $this->authorize('delete', $survey);
     $survey->delete();
     return redirect()->route('surveys.index')
                      ->with('success', __('messages.delete_success', ['item' => 'survey']));

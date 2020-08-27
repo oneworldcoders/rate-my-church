@@ -22,12 +22,11 @@ class RatingController extends Controller
   public function index(Request $request)
   {
     $this->authorize('viewAny', Rating::class);
-    $user = auth()->user();
     $church = Church::find($request->church);
     $church_name = $church->name;
-    $survey = $request->survey ? Survey::find($request->survey) : Survey::all()->last();
+    $survey = $request->survey ? Survey::withTrashed()->find($request->survey) : Survey::withTrashed()->get()->last();
     $church_question_ids = ChurchQuestion::where(['church_id' => $church->id, 'survey_id' => $survey->id])->pluck('id');
-    $ratings = $user->ratings->whereIn('church_question_id', $church_question_ids);
+    $ratings = auth()->user()->ratings->whereIn('church_question_id', $church_question_ids);
     $rating_bar_chart = new RatingBarChart('score', [], false);
     $chart_data = $rating_bar_chart->makeChart($ratings);
     return view('users.ratings.index', compact('church_name', 'ratings', 'chart_data'));
