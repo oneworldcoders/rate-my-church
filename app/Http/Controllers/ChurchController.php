@@ -25,18 +25,20 @@ class ChurchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('viewAny', Church::class);
         $user = auth()->user();
-        
-        if ($user->is_admin){
-          $religions = Religion::all();
+        if ($request->search){
+          $churches = Church::where('name', 'ilike', '%'.$request->search.'%')->get();
+        }
+        else if ($user->is_admin){
+          $churches = Church::all();
         } else {
-          $religions = Religion::where('id', $user->religion->id)->get();
+          $churches = Church::where('religion_id', $user->religion_id)->get();
         }
 
-        return view('admin.church.index', compact('religions'));
+        return view('admin.church.index', compact('churches'));
     }
 
     /**

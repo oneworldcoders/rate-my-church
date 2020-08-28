@@ -127,10 +127,10 @@ class ChurchTest extends TestCase
     $response->assertViewIs('admin.church.index');
   }
 
-  public function test_church_index_route_contains_all_religions()
+  public function test_church_index_route_contains_all_churches()
   {
     $response = $this->get(route('churches.index'));
-    $response->assertViewHas('religions');
+    $response->assertViewHas('churches');
   }
 
   public function test_church_show_route_renders_church_show_view()

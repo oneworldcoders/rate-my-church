@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\Presenters\ChurchPresenter;
 use Illuminate\Database\Eloquent\Model;
 
 class Church extends Model
 {
+    use ChurchPresenter;
+
     protected $fillable = ['name', 'religion_id', 'overall_average'];
     protected $with = ['address'];
 

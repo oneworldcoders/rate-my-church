@@ -15,9 +15,15 @@ class PermissionController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function index()
+  public function index(Request $request)
   {
-    $users = User::with('roles')->get();
+    if ($request->name || $request->email){
+      $users = User::with('roles')->whereRaw(
+        "LOWER(name) LIKE ? AND LOWER(email) LIKE ?", ['%'.strtolower($request->name).'%', '%'.strtolower($request->email).'%']
+      )->get();
+    } else {
+      $users = User::with('roles')->get();
+    }
     $roles = Role::all();
     return view('permission.index', compact('users', 'roles'));
   }

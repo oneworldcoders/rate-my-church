@@ -6,7 +6,8 @@
   <div class="row justify-content-center">
     <div class="col-md-12">
       @include('includes.auth.success')
-
+      @include('includes.search_bar')
+      
       <div class="card">
         <div class="card-header">{{ __('Churches') }}</div>
 
@@ -32,7 +33,7 @@
 <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclustererplus@4.0.1.min.js"></script>
 
 <script defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKt4p3f8Opos-7Y2W7uOHpyKUcyYA6Cjw&callback=initMap">
+  src="https://maps.googleapis.com/maps/api/js?key={{env('GOOGLE_MAPS_API_KEY')}}&callback=initMap">
 </script>
 
 <script>
@@ -77,10 +78,10 @@ function initMap() {
     });
   });
 }
-let averages = {!! json_encode(App\Religion::all_overall_averages($religions)) !!}
-let churchNames = {!! json_encode(App\Religion::all_church_names($religions)) !!};
-let locations = {!! json_encode(App\Religion::all_church_addresses($religions), JSON_NUMERIC_CHECK) !!};
-let churchIds = {!! json_encode(App\Religion::all_church_ids($religions)) !!}
+let averages = {!! json_encode(App\Church::all_overall_averages($churches)) !!}
+let churchNames = {!! json_encode(App\Church::all_church_names($churches)) !!};
+let locations = {!! json_encode(App\Church::all_church_addresses($churches), JSON_NUMERIC_CHECK) !!};
+let churchIds = {!! json_encode(App\Church::all_church_ids($churches)) !!}
 </script>
 
 
