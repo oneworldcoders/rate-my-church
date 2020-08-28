@@ -18,7 +18,7 @@ class QuestionPolicy
    */
   public function viewAny(User $user)
   {
-    //
+    return in_array('view_questions', $user->roles->pluck('name')->all()) || $user->is_admin;
   }
 
   /**
@@ -30,7 +30,7 @@ class QuestionPolicy
    */
   public function view(User $user, Question $question)
   {
-    //
+    return in_array('view_questions', $user->roles->pluck('name')->all()) || $user->is_admin;
   }
 
   /**
@@ -65,7 +65,7 @@ class QuestionPolicy
    */
   public function delete(User $user, Question $question)
   {
-    //
+    return in_array('delete_questions', $user->roles->pluck('name')->all()) || $user->is_admin;
   }
 
   public function deleteAny(User $user)

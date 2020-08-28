@@ -22,7 +22,9 @@ class QuestionController extends Controller
    */
   public function index()
   {
-    //
+    $this->authorize('viewAny', Question::class);
+    $questions = Question::all();
+    return view('admin.question.index', compact('questions'));
   }
 
   /**
@@ -44,8 +46,9 @@ class QuestionController extends Controller
    */
   public function store(QuestionRequest $request)
   {
+    $this->authorize('create', Question::class);
     $question = Question::create($request->all());
-    return redirect()->route('home')
+    return redirect()->route('questions.index')
                      ->with('success', __('messages.add_success', ['item' => 'question']));
   }
 
@@ -57,7 +60,8 @@ class QuestionController extends Controller
    */
   public function show(Question $question)
   {
-    //
+    $this->authorize('view', $question, Question::class);
+    return view('admin.question.show', compact('question'));
   }
 
   /**
@@ -93,7 +97,7 @@ class QuestionController extends Controller
   {
     $church = $question->church;
     $question->delete();
-    return redirect()->route('home')
+    return redirect()->route('questions.index')
                      ->with(['success' =>  __('messages.delete_success', ['item' => 'question'])]);
   }
 }

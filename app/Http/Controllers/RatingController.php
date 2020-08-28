@@ -73,7 +73,7 @@ class RatingController extends Controller
     $church_name = $church_question->church->name;
     $chart_data = $rating_bar_chart->makeChartAverage($ratings);
 
-    return view('admin.question.show', compact('ratings', 'church_name', 'question', 'chart_data'));
+    return view('users.ratings.view_responses', compact('ratings', 'church_name', 'question', 'chart_data'));
   }
 
   /**
