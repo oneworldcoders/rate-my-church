@@ -24,7 +24,7 @@ class QuestionController extends Controller
   {
     $this->authorize('viewAny', Question::class);
     $questions = Question::all();
-    return view('admin.question.index', compact('questions'));
+    return view('question.index', compact('questions'));
   }
 
   /**
@@ -35,7 +35,7 @@ class QuestionController extends Controller
   public function create()
   {
     $this->authorize('create', Question::class);
-    return view('admin.question.create');
+    return view('question.create');
   }
 
   /**
@@ -61,7 +61,7 @@ class QuestionController extends Controller
   public function show(Question $question)
   {
     $this->authorize('view', $question, Question::class);
-    return view('admin.question.show', compact('question'));
+    return view('question.show', compact('question'));
   }
 
   /**

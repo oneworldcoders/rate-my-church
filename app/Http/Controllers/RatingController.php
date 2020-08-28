@@ -30,7 +30,7 @@ class RatingController extends Controller
     $ratings = Rating::with('church_question.question')->whereIn('church_question_id', $church_question_ids)->where('user_id', $user->id)->get();
     $rating_bar_chart = new RatingBarChart('score', [], false);
     $chart_data = $rating_bar_chart->makeChart($ratings);
-    return view('users.ratings.index', compact('church_name', 'ratings', 'chart_data'));
+    return view('ratings.index', compact('church_name', 'ratings', 'chart_data'));
   }
 
   public function create(Request $request)
@@ -38,7 +38,7 @@ class RatingController extends Controller
     $this->authorize('create', Rating::class);
     $church = Church::find($request->church);
     $survey = Survey::all()->last();
-    return view('users.ratings.create', compact('church', 'survey'));
+    return view('ratings.create', compact('church', 'survey'));
   }
 
   public function store(Request $request, RatingsService $service)
@@ -73,7 +73,7 @@ class RatingController extends Controller
     $church_name = $church_question->church->name;
     $chart_data = $rating_bar_chart->makeChartAverage($ratings);
 
-    return view('users.ratings.view_responses', compact('ratings', 'church_name', 'question', 'chart_data'));
+    return view('ratings.view_responses', compact('ratings', 'church_name', 'question', 'chart_data'));
   }
 
   /**

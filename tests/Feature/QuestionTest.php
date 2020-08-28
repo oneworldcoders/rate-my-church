@@ -129,7 +129,7 @@ class QuestionTest extends TestCase
   public function test_question_index_renders_question_index_view()
   {
     $response = $this->actingAs($this->admin)->get(route('questions.index', $this->question));
-    $response->assertViewIs('admin.question.index');
+    $response->assertViewIs('question.index');
   }
 
   public function test_question_index_renders_all_questions()

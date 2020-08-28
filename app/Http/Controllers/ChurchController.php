@@ -38,7 +38,7 @@ class ChurchController extends Controller
           $churches = Church::where('religion_id', $user->religion_id)->get();
         }
 
-        return view('admin.church.index', compact('churches'));
+        return view('church.index', compact('churches'));
     }
 
     /**
@@ -50,7 +50,7 @@ class ChurchController extends Controller
     {
         $this->authorize('create', Church::class);
         $religions = Religion::all();
-        return view('admin.church.create', compact('religions'));
+        return view('church.create', compact('religions'));
     }
 
     /**
@@ -78,7 +78,7 @@ class ChurchController extends Controller
       $survey = Survey::all()->last();
       $church_questions = ChurchQuestion::where(['church_id' => $church->id, 'survey_id' => $survey->id])->get();
 
-      return view('admin.church.show', compact('church', 'church_questions'));
+      return view('church.show', compact('church', 'church_questions'));
     }
 
     /**
