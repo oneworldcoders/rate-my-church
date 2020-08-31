@@ -49,7 +49,7 @@ class ChurchTest extends TestCase
   public function test_grants_non_admin_with_view_churches_role()
   {
     $user = factory(User::class)->create();
-    $role = factory(Role::class)->create(['name' => 'view_churches']);
+    $role = factory(Role::class)->create(['name' => 'View Churches']);
     $user->roles()->attach($role);
     $response = $this->actingAs($user)->get(route('churches.index'));
     $response->assertStatus(200);

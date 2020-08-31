@@ -18,7 +18,7 @@ class ChurchPolicy
    */
   public function viewAny(User $user)
   {
-    return in_array('view_churches', $user->roles->pluck('name')->all()) || $user->is_admin;
+    return in_array('View Churches', $user->roles->pluck('name')->all()) || $user->is_admin;
   }
 
   /**
@@ -41,7 +41,7 @@ class ChurchPolicy
    */
   public function create(User $user)
   {
-    return in_array('create_churches', $user->roles->pluck('name')->all()) || $user->is_admin;
+    return in_array('Add Churches', $user->roles->pluck('name')->all()) || $user->is_admin;
   }
 
   /**

@@ -18,7 +18,7 @@ class RatingPolicy
    */
   public function viewAny(User $user)
   {
-    return in_array('rate_questions', $user->roles->pluck('name')->all());
+    return in_array('Rate Questions', $user->roles->pluck('name')->all());
   }
 
   /**
@@ -41,7 +41,7 @@ class RatingPolicy
    */
   public function create(User $user)
   {
-    return in_array('rate_questions', $user->roles->pluck('name')->all());
+    return in_array('Rate Questions', $user->roles->pluck('name')->all());
   }
 
   /**
