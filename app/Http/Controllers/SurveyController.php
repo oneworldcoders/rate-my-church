@@ -11,6 +11,7 @@ class SurveyController extends Controller
   public function __construct()
   {
     $this->middleware('auth');
+    $this->authorizeResource(Survey::class);
   }
   /**
    * Display a listing of the resource.
@@ -19,7 +20,6 @@ class SurveyController extends Controller
    */
   public function index()
   {
-    $this->authorize('viewAny', Survey::class);
     $surveys = Survey::all();
     return view('survey.index', compact('surveys'));
   }
@@ -31,7 +31,6 @@ class SurveyController extends Controller
    */
   public function create()
   {
-    $this->authorize('create', Survey::class);
     $questions = Question::all();
     return view('survey.create', compact('questions'));
   }
@@ -44,7 +43,6 @@ class SurveyController extends Controller
    */
   public function store(Request $request)
   {
-    $this->authorize('create', Survey::class);
     $survey = Survey::create($request->input());
     $questions = $request->input('questions');
     $survey->questions()->attach($questions);
@@ -60,7 +58,6 @@ class SurveyController extends Controller
    */
   public function show(Survey $survey)
   {
-    $this->authorize('view', $survey, Survey::class);
     return view('survey.show', compact('survey'));
   }
 
@@ -95,7 +92,6 @@ class SurveyController extends Controller
    */
   public function destroy(Survey $survey)
   {
-    $this->authorize('delete', $survey);
     $survey->delete();
     return redirect()->route('surveys.index')
                      ->with('success', __('messages.delete_success', ['item' => 'survey']));

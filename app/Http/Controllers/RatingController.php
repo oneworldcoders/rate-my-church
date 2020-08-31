@@ -16,12 +16,11 @@ class RatingController extends Controller
   public function __construct()
   {
     $this->middleware('auth');
-    $this->middleware('admin_auth')->only(['view_responses']);
+    $this->authorizeResource(Rating::class);
   }
 
   public function index(Request $request)
   {
-    $this->authorize('viewAny', Rating::class);
     $user = auth()->user();
     $church = Church::find($request->church);
     $church_name = $church->name;
@@ -35,7 +34,6 @@ class RatingController extends Controller
 
   public function create(Request $request)
   {
-    $this->authorize('create', Rating::class);
     $church = Church::find($request->church);
     $survey = Survey::all()->last();
     return view('ratings.create', compact('church', 'survey'));
@@ -43,7 +41,6 @@ class RatingController extends Controller
 
   public function store(Request $request, RatingsService $service)
   {
-    $this->authorize('create', Rating::class);
     $church_id = $request->church;
     $survey = Survey::find($request->survey);
     $user = auth()->user();

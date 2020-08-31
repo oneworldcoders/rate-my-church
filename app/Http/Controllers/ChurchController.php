@@ -18,6 +18,7 @@ class ChurchController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->authorizeResource(Church::class);
     }
 
     /**
@@ -27,7 +28,6 @@ class ChurchController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('viewAny', Church::class);
         $user = auth()->user();
         if ($request->search){
           $churches = Church::where('name', 'ilike', '%'.$request->search.'%')->get();
@@ -48,7 +48,6 @@ class ChurchController extends Controller
      */
     public function create()
     {
-        $this->authorize('create', Church::class);
         $religions = Religion::all();
         return view('church.create', compact('religions'));
     }

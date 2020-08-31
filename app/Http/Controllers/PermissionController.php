@@ -10,6 +10,12 @@ use App\RoleUser;
 
 class PermissionController extends Controller
 {
+  public function __construct()
+  {
+    $this->middleware('auth');
+    $this->authorizeResource(RoleUser::class);
+  }
+
   /**
    * Display a listing of the resource.
    *
@@ -35,9 +41,7 @@ class PermissionController extends Controller
    */
   public function create()
   {
-    $users = User::all();
-    $roles = Role::all();
-    return view('permission.create', compact('users', 'roles'));
+    //
   }
 
   /**
@@ -48,12 +52,7 @@ class PermissionController extends Controller
    */
   public function store(Request $request)
   {
-    $this->authorize('create', User::class);
-    $user = User::find($request->input('user'));
-    $role = Role::find($request->input('role'));
-    $user->roles()->attach($role);
-    return redirect()->route('permissions.index')
-                     ->with('success', __('messages.add_success', ['item' => 'permission']));
+    //
   }
 
   public function save(Request $request)

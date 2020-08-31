@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Church;
+use App\RoleUser;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ChurchPolicy
+class RoleUserPolicy
 {
   use HandlesAuthorization;
 
@@ -18,19 +18,24 @@ class ChurchPolicy
    */
   public function viewAny(User $user)
   {
-    return in_array('View Churches', $user->roles->pluck('name')->all()) || $user->is_admin;
+    return $this->canAssignRoles($user);
   }
 
   /**
    * Determine whether the user can view the model.
    *
    * @param  \App\User  $user
-   * @param  \App\Church  $church
+   * @param  \App\RoleUser  $roleUser
    * @return mixed
    */
-  public function view(User $user, Church $church)
+  public function view(User $user, RoleUser $roleUser)
   {
-    return in_array('View Churches', $user->roles->pluck('name')->all()) || $user->is_admin;
+    return $this->canAssignRoles($user);
+  }
+
+  public function save(User $user)
+  {
+    return $this->canAssignRoles($user);
   }
 
   /**
@@ -41,17 +46,17 @@ class ChurchPolicy
    */
   public function create(User $user)
   {
-    return in_array('Add Churches', $user->roles->pluck('name')->all()) || $user->is_admin;
+    //
   }
 
   /**
    * Determine whether the user can update the model.
    *
    * @param  \App\User  $user
-   * @param  \App\Church  $church
+   * @param  \App\RoleUser  $roleUser
    * @return mixed
    */
-  public function update(User $user, Church $church)
+  public function update(User $user, RoleUser $roleUser)
   {
     //
   }
@@ -60,10 +65,10 @@ class ChurchPolicy
    * Determine whether the user can delete the model.
    *
    * @param  \App\User  $user
-   * @param  \App\Church  $church
+   * @param  \App\RoleUser  $roleUser
    * @return mixed
    */
-  public function delete(User $user, Church $church)
+  public function delete(User $user, RoleUser $roleUser)
   {
     //
   }
@@ -72,10 +77,10 @@ class ChurchPolicy
    * Determine whether the user can restore the model.
    *
    * @param  \App\User  $user
-   * @param  \App\Church  $church
+   * @param  \App\RoleUser  $roleUser
    * @return mixed
    */
-  public function restore(User $user, Church $church)
+  public function restore(User $user, RoleUser $roleUser)
   {
     //
   }
@@ -84,11 +89,16 @@ class ChurchPolicy
    * Determine whether the user can permanently delete the model.
    *
    * @param  \App\User  $user
-   * @param  \App\Church  $church
+   * @param  \App\RoleUser  $roleUser
    * @return mixed
    */
-  public function forceDelete(User $user, Church $church)
+  public function forceDelete(User $user, RoleUser $roleUser)
   {
     //
+  }
+
+  protected function canAssignRoles(User $user)
+  {
+    return in_array('Assign Roles', $user->roles->pluck('name')->all()) || $user->is_admin;
   }
 }

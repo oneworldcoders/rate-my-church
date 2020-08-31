@@ -29,11 +29,13 @@ class RatingControllerTest extends TestCase
   protected $post_response;
   protected $index_response;
   protected $score;
+  protected $view_responses_role;
 
   protected function setUp(): void
   {
     parent::setUp();
     $this->role = factory(Role::class)->create(['name' => 'Rate Questions']);
+    $this->view_responses_role = factory(Role::class)->create(['name' => 'View Responses']);
     $this->user = factory(User::class)->create();
     
     $this->unauthorized_user = factory(User::class)->create();
@@ -156,14 +158,22 @@ class RatingControllerTest extends TestCase
     $response->assertStatus(200);
   }
 
-  public function test_non_admin_get_redirected()
+  public function test_users_without_permissions_cannot_view_responses()
   {
     $response = $this->actingAs($this->user)->get(route('ratings.view_responses', $this->church_question));
-    $response->assertRedirect('home');
+    $response->assertForbidden();
+  }
+
+  public function test_users_with_permissions_can_view_responses()
+  {
+    $this->user->roles()->attach($this->view_responses_role->id);
+    $response = $this->actingAs($this->user)->get(route('ratings.view_responses', $this->church_question));
+    $response->assertStatus(200);
   }
 
   public function test_ratings_page_receives_ratings()
   {
+    $this->withoutExceptionHandling();
     $response = $this->actingAs($this->admin)->get(route('ratings.view_responses', $this->church_question));
     $response->assertViewHas('ratings');
   }

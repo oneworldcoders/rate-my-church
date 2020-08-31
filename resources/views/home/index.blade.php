@@ -11,7 +11,7 @@
 
         <div class="card-body">
           <div class="row mx-auto">
-            @can('create', App\User::class)
+            @can('viewAny', App\RoleUser::class)
               <div class="card m-2" style="width: 14rem;">
                 <h5 class="mx-auto pt-2 card-title">Permissions</h5>
                 <a href="{{ route('permissions.index') }}"><img class="card-img-top" src={{url('assets/permission.svg')}} alt="Permission image"></a>

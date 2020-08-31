@@ -33,6 +33,13 @@ class RatingPolicy
     //
   }
 
+  public function viewResponses(User $user)
+  {
+    $role = \App\Role::firstWhere(['name' => 'View Responses']);
+    return \App\RoleUser::firstWhere(['user_id' => $user->id, 'role_id' => $role->id]) || $user->is_admin;
+    //return in_array('View Responses', $user->roles->pluck('name')->all()) || $user->is_admin;
+  }
+
   /**
    * Determine whether the user can create models.
    *

@@ -64,7 +64,9 @@
                       </a>
                     </div>
                     <form action="{{ route('questions.destroy', $church_question->question) }}" method="POST">
-                      <a class="btn btn-secondary" href="{{ route('ratings.view_responses', $church_question->id) }}">View Responses</a>
+                      @can('viewResponses', App\Rating::class)
+                        <a class="btn btn-secondary" href="{{ route('ratings.view_responses', $church_question->id) }}">View Responses</a>
+                      @endcan
                     
                       @can('deleteAny', App\Question::class)                    
                         @csrf
