@@ -12,10 +12,13 @@ use App\Role;
 class PermissionControllerTest extends TestCase
 {
   use RefreshDatabase;
+  use PermissionIndexTrait;
 
   protected $admin;
   protected $user;
   protected $role;
+  protected $view_role;
+  protected $index_route;
 
   protected function setUp(): void
   {
@@ -23,26 +26,8 @@ class PermissionControllerTest extends TestCase
     $this->admin = factory(User::class)->create(['is_admin' => 1]);
     $this->user = factory(User::class)->create();
     $this->role = factory(Role::class)->create();
-  }
-
-  public function test_admin_can_view_permission_index()
-  {
-    $response = $this->actingAs($this->admin)->get(route('permissions.index'));
-    $response->assertStatus(200);
-  }
-
-  public function test_users_without_permission_cannot_view_permission_index()
-  {
-    $response = $this->actingAs($this->user)->get(route('permissions.index'));
-    $response->assertForbidden();
-  }
-  
-  public function test_with_permission_can_view_permission_index()
-  {
-    $role = factory(Role::class)->create(['name' => 'Assign Roles']);
-    $this->user->roles()->attach($role);
-    $response = $this->actingAs($this->user)->get(route('permissions.index'));
-    $response->assertStatus(200);
+    $this->view_role = factory(Role::class)->create(['name' => 'Assign Roles']); 
+    $this->index_route = route('permissions.index');
   }
 
   public function test_permission_index_view_is_rendered()

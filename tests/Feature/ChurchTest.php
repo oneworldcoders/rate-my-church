@@ -14,9 +14,13 @@ use App\Survey;
 class ChurchTest extends TestCase
 {
   use RefreshDatabase;
+  use PermissionIndexTrait;
 
   protected $response;
   protected $admin;
+  protected $index_route;
+  protected $user;
+  protected $view_role;
   protected $church;
   protected $full_address;
 
@@ -24,8 +28,12 @@ class ChurchTest extends TestCase
   {
     parent::setUp();
     $this->admin = factory(User::class)->create(['is_admin' => 1]);
+    $this->user = factory(User::class)->create();
+    $this->index_route = route('churches.index');
+    $this->view_role = factory(Role::class)->create(['name' => 'View Churches']);
     $church_name = 'Test Name';
     $this->full_address = 'Full Address';
+    
     $this->response = $this->actingAs($this->admin)->post(route('churches.store'), [
       'name' => $church_name,
       'religion_id' => 1,
@@ -37,29 +45,6 @@ class ChurchTest extends TestCase
     ]);
 
     $this->church = Church::firstWhere(['name' => $church_name]);
-  }
-
-  public function test_forbid_non_admin_without_view_churches_role()
-  {
-    $user = factory(User::class)->create();
-    $response = $this->actingAs($user)->get(route('churches.index'));
-    $response->assertForbidden();
-  }
-
-  public function test_grants_non_admin_with_view_churches_role()
-  {
-    $user = factory(User::class)->create();
-    $role = factory(Role::class)->create(['name' => 'View Churches']);
-    $user->roles()->attach($role);
-    $response = $this->actingAs($user)->get(route('churches.index'));
-    $response->assertStatus(200);
-  }
-
-  public function test_grants_admin_to_view_churches()
-  {
-    $user = factory(User::class)->create(['is_admin' => 1]);
-    $response = $this->actingAs($user)->get(route('churches.index'));
-    $response->assertStatus(200);
   }
 
   public function test_a_church_can_be_added_through_the_form()

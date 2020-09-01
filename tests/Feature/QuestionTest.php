@@ -13,11 +13,14 @@ use App\Role;
 class QuestionTest extends TestCase
 {
   use RefreshDatabase;
+  use PermissionIndexTrait;
 
   protected $response;
   protected $church;
   protected $admin;
   protected $user;
+  protected $view_role;
+  protected $index_route;
   protected $question;
 
   protected function setUp(): void
@@ -27,6 +30,8 @@ class QuestionTest extends TestCase
     $this->user = factory(User::class)->create();
     $this->church = factory(Church::class)->create();
     $this->question = factory(Question::class)->create();
+    $this->view_role = factory(Role::class)->create(['name' => 'View Questions']);
+    $this->index_route = route('questions.index');
 
     $this->response = $this->actingAs($this->admin)->post(route('questions.store'), [
       'title' => 'Test Title',
@@ -105,27 +110,7 @@ class QuestionTest extends TestCase
     $response = $this->get(route('questions.create'));
     $response->assertStatus(200);
   }
-
-  public function test_users_cannot_view_question_index_without_permission()
-  {
-    $response = $this->actingAs($this->user)->get(route('questions.index', $this->question));
-    $response->assertForbidden();
-  }
-
-  public function test_users_with_permission_can_view_question_index()
-  {
-    $role = factory(Role::class)->create(['name' => 'View Questions']);
-    $this->user->roles()->attach($role->id);
-    $response = $this->actingAs($this->user)->get(route('questions.index', $this->question));
-    $response->assertStatus(200);
-  }
-
-  public function test_admin_can_view_question_index()
-  {
-    $response = $this->actingAs($this->admin)->get(route('questions.index', $this->question));
-    $response->assertStatus(200);
-  }
-  
+ 
   public function test_question_index_renders_question_index_view()
   {
     $response = $this->actingAs($this->admin)->get(route('questions.index', $this->question));

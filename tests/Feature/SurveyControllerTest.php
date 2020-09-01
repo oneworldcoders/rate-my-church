@@ -14,9 +14,12 @@ class SurveyControllerTest extends TestCase
 {
 
   use RefreshDatabase;
+  use PermissionIndexTrait;
 
   protected $user;
   protected $admin;
+  protected $index_route;
+  protected $view_role;
 
   public function setUp(): void
   {
@@ -24,6 +27,9 @@ class SurveyControllerTest extends TestCase
 
     $this->admin = factory(User::class)->create(['is_admin' => 1]);
     $this->user = factory(User::class)->create();
+
+    $this->index_route = route('surveys.index');
+    $this->view_role = factory(Role::class)->create(['name' => 'view_surveys']);
   }
 
   protected function create_survey()
@@ -32,26 +38,6 @@ class SurveyControllerTest extends TestCase
       'name' => 'Survey Name',
       'questoin_ids' => [1, 2, 3]
     ]);
-  }
-
-  public function test_forbid_non_admin_without_view_survey_role()
-  {
-    $response = $this->actingAs($this->user)->get(route('surveys.index'));
-    $response->assertForbidden();
-  }
-
-  public function test_grants_non_admin_with_view_survey_role()
-  {
-    $role = factory(Role::class)->create(['name' => 'view_surveys']);
-    $this->user->roles()->attach($role);
-    $response = $this->actingAs($this->user)->get(route('surveys.index'));
-    $response->assertStatus(200);
-  }
-
-  public function test_grants_admin_to_view_surveys()
-  {
-    $response = $this->actingAs($this->admin)->get(route('surveys.index'));
-    $response->assertStatus(200);
   }
 
   public function test_a_survey_can_be_added_through_the_form()
