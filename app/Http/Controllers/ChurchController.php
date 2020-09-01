@@ -111,6 +111,8 @@ class ChurchController extends Controller
      */
     public function destroy(Church $church)
     {
-        //
+        $church->delete();
+        return redirect()->route('churches.index')
+                     ->with('success', __('messages.delete_success', ['item' => 'church']));
     }
 }

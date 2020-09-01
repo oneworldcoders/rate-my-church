@@ -50,41 +50,39 @@
             </div>
           </div>
           
-          <div class="card-header">{{__('Questions')}}</div>
-          <div class="card-body">
-            <ul class="list-group list-group-flush">
-              @foreach ($church_questions as $church_question)
-                <li class="list-group-item">
-                  <div class="row">
-                    <div class="col-md-4">
-                      <a>
-                        <strong>{{ $church_question->question_title }}</strong>
-                        <br>
-                        <p>{{ $church_question->question_description }}</p>
-                      </a>
+          @can('viewResponses', App\Rating::class)
+            <div class="card-header">{{__('Questions')}}</div>
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                @foreach ($church_questions as $church_question)
+                  <li class="list-group-item">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <a>
+                          <strong>{{ $church_question->question_title }}</strong>
+                          <br>
+                          <p>{{ $church_question->question_description }}</p>
+                        </a>
+                      </div>
+                      <div>
+                        <a class="btn btn-secondary" href="{{ route('ratings.view_responses', $church_question->id) }}">{{__('View Responses')}}</a>
+                      </div>
                     </div>
-                    <form action="{{ route('questions.destroy', $church_question->question) }}" method="POST">
-                      @can('viewResponses', App\Rating::class)
-                        <a class="btn btn-secondary" href="{{ route('ratings.view_responses', $church_question->id) }}">View Responses</a>
-                      @endcan
-                    
-                      @can('deleteAny', App\Question::class)                    
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger" type="submit">Delete Question</button>
-                      @endcan
-                    </form>
-                  </div>
-                </li>
-              @endforeach
-            </ul>
-          </div>
-          <br>
-          @can('create', App\Question::class)
-            <div class="offset-md-4">
-              <a class="btn btn-primary" href="{{ route('questions.create') }}">Add a Question</a>
+                  </li>
+                @endforeach
+              </ul>
             </div>
           @endcan
+          <br>
+          
+          <form action="{{ route('churches.destroy', $church) }}" method="POST">
+            @can('delete', $church, App\Church::class)                    
+              @csrf
+              @method('DELETE')
+              <button class="btn btn-danger offset-md-4" type="submit">{{__('Delete Church')}}</button>
+            @endcan
+          </form>
+
         </div>
       </div>
     </div>

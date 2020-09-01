@@ -15,6 +15,6 @@ class UserSeeder extends Seeder
     factory(User::class)->create(['name' => 'Admin', 'email' => 'admin@example.com', 'is_admin' => 1]);
     factory(User::class)->create(['name' => 'Emmanuel Omona', 'email' => 'emmanuelomona@example.com']);
     factory(User::class)->create(['name' => 'Henry Okonkwo', 'email' => 'henryokonkwo@example.com']);
-    factory(User::class, 10)->create();
+    //factory(User::class, 10)->create();
   }
 }
