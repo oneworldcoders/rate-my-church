@@ -123,7 +123,7 @@ class ChurchTest extends TestCase
     $church = factory(Church::class)->create();
     $address = factory(Address::class)->create(['church_id' => $church->id]); 
     $survey = factory(Survey::class)->create();
-    $response = $this->get(route('churches.show', $church->id));
+    $response = $this->actingAs($this->admin)->get(route('churches.show', $church->id));
     $response->assertViewIs('church.show');
   }
 
@@ -132,7 +132,7 @@ class ChurchTest extends TestCase
     $church = factory(Church::class)->create();
     $address = factory(Address::class)->create(['church_id' => $church->id]); 
     $survey = factory(Survey::class)->create();
-    $response = $this->get(route('churches.show', $church));
+    $response = $this->actingAs($this->admin)->get(route('churches.show', $church));
     $response->assertViewHas('church', $church);
   }
 }

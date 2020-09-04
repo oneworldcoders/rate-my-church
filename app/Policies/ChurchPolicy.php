@@ -65,7 +65,7 @@ class ChurchPolicy
    */
   public function delete(User $user, Church $church)
   {
-    //
+    return $user->is_admin;
   }
 
   /**

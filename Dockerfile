@@ -25,3 +25,5 @@ ADD composer.json /usr/src/myapp/composer.json
 ADD composer.lock /usr/src/myapp/composer.lock
 ADD . /usr/src/myapp
 RUN composer install --prefer-source --no-interaction
+CMD php artisan serve --host '0.0.0.0' --port $PORT
+
