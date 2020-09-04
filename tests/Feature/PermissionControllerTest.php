@@ -12,10 +12,13 @@ use App\Role;
 class PermissionControllerTest extends TestCase
 {
   use RefreshDatabase;
+  use PermissionIndexTrait;
 
   protected $admin;
   protected $user;
   protected $role;
+  protected $view_role;
+  protected $index_route;
 
   protected function setUp(): void
   {
@@ -23,46 +26,47 @@ class PermissionControllerTest extends TestCase
     $this->admin = factory(User::class)->create(['is_admin' => 1]);
     $this->user = factory(User::class)->create();
     $this->role = factory(Role::class)->create();
+    $this->view_role = factory(Role::class)->create(['name' => 'Assign Roles']); 
+    $this->index_route = route('permissions.index');
   }
 
   public function test_permission_index_view_is_rendered()
   {
-    $response = $this->get(route('permissions.index'));
+    $response = $this->actingAs($this->admin)->get(route('permissions.index'));
     $response->assertViewIs('permission.index');
   }
 
   public function test_permission_index_has_users()
   {
     $users = factory(User::class, 3)->create();
-    $response = $this->get(route('permissions.index'));
+    $response = $this->actingAs($this->admin)->get(route('permissions.index'));
     $response->assertViewHas('users');
   }
 
   public function test_permission_search_by_username()
   {
-    $response = $this->get(route('permissions.index', ['name' => $this->user->name]));
+    $response = $this->actingAs($this->admin)->get(route('permissions.index', ['name' => $this->user->name]));
     $response->assertViewHas('users');
     $this->assertEquals($this->user->id, $response['users']->first()->id);
   }
 
   public function test_permission_search_name_ignores_case()
   {
-    $response = $this->get(route('permissions.index', ['name' => strtolower($this->user->name)]));
+    $response = $this->actingAs($this->admin)->get(route('permissions.index', ['name' => strtolower($this->user->name)]));
     $response->assertViewHas('users');
     $this->assertEquals($this->user->id, $response['users']->first()->id);
   }
 
   public function test_permission_search_matches_incomplete_names()
   {
-    $response = $this->get(route('permissions.index', ['name' => substr($this->user->name, 0, 5)]));
+    $response = $this->actingAs($this->admin)->get(route('permissions.index', ['name' => substr($this->user->name, 0, 5)]));
     $response->assertViewHas('users');
     $this->assertEquals($this->user->id, $response['users']->first()->id);
   }
 
   public function test_permission_search_by_email()
   {
-    $this->withoutExceptionHandling();
-    $response = $this->get(route('permissions.index', ['email' => $this->user->email]));
+    $response = $this->actingAs($this->admin)->get(route('permissions.index', ['email' => $this->user->email]));
     $response->assertViewHas('users');
     $this->assertEquals($this->user->id, $response['users']->first()->id);
   }
@@ -70,14 +74,14 @@ class PermissionControllerTest extends TestCase
   public function test_permission_search_email_ignores_case()
   {
     $user = factory(User::class)->create(['email' => 'Email@Example.com']);
-    $response = $this->get(route('permissions.index', ['email' => strtolower($user->email)]));
+    $response = $this->actingAs($this->admin)->get(route('permissions.index', ['email' => strtolower($user->email)]));
     $response->assertViewHas('users');
     $this->assertEquals($user->id, $response['users']->first()->id);
   }
 
   public function test_permission_search_matches_incomplete_emails()
   {
-    $response = $this->get(route('permissions.index', ['email' => substr($this->user->email, 0, 5)]));
+    $response = $this->actingAs($this->admin)->get(route('permissions.index', ['email' => substr($this->user->email, 0, 5)]));
     $response->assertViewHas('users');
     $this->assertEquals($this->user->id, $response['users']->first()->id);
   }
