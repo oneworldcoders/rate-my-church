@@ -33,7 +33,7 @@ class RatingControllerTest extends TestCase
   protected function setUp(): void
   {
     parent::setUp();
-    $this->role = factory(Role::class)->create(['name' => 'rate_questions']);
+    $this->role = factory(Role::class)->create(['name' => 'Rate Questions']);
     $this->user = factory(User::class)->create();
     
     $this->unauthorized_user = factory(User::class)->create();

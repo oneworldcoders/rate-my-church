@@ -13,10 +13,11 @@ class RoleSeeder extends Seeder
    */
   public function run()
   {
-    Role::create(['name'=>'assign_roles', 'description'=>'give users roles']);
-    Role::create(['name'=>'rate_questions', 'description'=>'rate questions']);
-    Role::create(['name'=>'view_churches', 'description'=>'view churches']);
-    Role::create(['name'=>'add_questions', 'description'=>'add questions']);
-    Role::create(['name'=>'create_churches', 'description'=>'add churches']);
+    Role::create(['name'=>'Assign Roles', 'description'=>'give users roles']);
+    Role::create(['name'=>'Rate Questions', 'description'=>'rate questions']);
+    Role::create(['name'=>'View Churches', 'description'=>'view churches']);
+    Role::create(['name'=>'Add Churches', 'description'=>'add churches']);
+    Role::create(['name'=>'View Questions', 'description'=>'view questions']);
+    Role::create(['name'=>'Add Questions', 'description'=>'add questions']);
   }
 }

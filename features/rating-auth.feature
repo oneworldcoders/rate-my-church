@@ -5,7 +5,7 @@ Feature: Rating Authentication
     Then I get a response: 403
    
   Scenario: Can rate a chuch with permission
-    Given I am a user with permission: 'rate_questions'
+    Given I am a user with permission: 'Rate Questions'
     And A survey exists
     And A church exists with id : 1
     When I visit the page: '/ratings/create?church=1'

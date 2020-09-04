@@ -43,7 +43,7 @@ class QuestionTest extends TestCase
 
   public function test_users_with_permission_can_create_questions()
   {
-    $role = Role::create(['name'=>'add_questions', 'description'=>'']);
+    $role = Role::create(['name'=>'Add Questions', 'description'=>'']);
     $this->user->roles()->attach($role);
     $response = $this->actingAs($this->user)->get(route('questions.create'));
     $response->assertStatus(200);
@@ -114,7 +114,7 @@ class QuestionTest extends TestCase
 
   public function test_users_with_permission_can_view_question_index()
   {
-    $role = factory(Role::class)->create(['name' => 'view_questions']);
+    $role = factory(Role::class)->create(['name' => 'View Questions']);
     $this->user->roles()->attach($role->id);
     $response = $this->actingAs($this->user)->get(route('questions.index', $this->question));
     $response->assertStatus(200);

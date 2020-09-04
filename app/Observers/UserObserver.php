@@ -16,7 +16,7 @@ class UserObserver
   public function created(User $user)
   {
     if($user->is_admin) return;
-    $roles = Role::where(['name' => 'rate_questions'])->orWhere(['name' => 'view_churches'])->get();
+    $roles = Role::where(['name' => 'Rate Questions'])->orWhere(['name' => 'View Churches'])->get();
     foreach($roles as $role){
       $user->roles()->attach($role);
     }

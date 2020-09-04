@@ -23,8 +23,8 @@ class UserTest extends TestCase
     parent::setUp();
 
     $this->religion = factory(Religion::class)->create();
-    $this->rate_role = factory(Role::class)->create(['name' =>'rate_questions']);
-    $this->church_role = factory(Role::class)->create(['name' =>'view_churches']);
+    $this->rate_role = factory(Role::class)->create(['name' =>'Rate Questions']);
+    $this->church_role = factory(Role::class)->create(['name' =>'View Churches']);
     $this->user = factory(User::class)->create();
   }
 
