@@ -60,9 +60,9 @@ class QuestionTest extends TestCase
     $this->assertCount(2, Question::all());
   }
 
-  public function test_redirects_to_the_home_page_after_submit()
+  public function test_redirects_to_the_question_index_page_after_submit()
   {
-    $this->response->assertRedirect(route('home'));
+    $this->response->assertRedirect(route('questions.index'));
   }
 
   public function test_success_message_in_session()
@@ -106,6 +106,39 @@ class QuestionTest extends TestCase
     $response->assertStatus(200);
   }
 
+  public function test_users_cannot_view_question_index_without_permission()
+  {
+    $response = $this->actingAs($this->user)->get(route('questions.index', $this->question));
+    $response->assertForbidden();
+  }
+
+  public function test_users_with_permission_can_view_question_index()
+  {
+    $role = factory(Role::class)->create(['name' => 'view_questions']);
+    $this->user->roles()->attach($role->id);
+    $response = $this->actingAs($this->user)->get(route('questions.index', $this->question));
+    $response->assertStatus(200);
+  }
+
+  public function test_admin_can_view_question_index()
+  {
+    $response = $this->actingAs($this->admin)->get(route('questions.index', $this->question));
+    $response->assertStatus(200);
+  }
+  
+  public function test_question_index_renders_question_index_view()
+  {
+    $response = $this->actingAs($this->admin)->get(route('questions.index', $this->question));
+    $response->assertViewIs('admin.question.index');
+  }
+
+  public function test_question_index_renders_all_questions()
+  {
+    $response = $this->actingAs($this->admin)->get(route('questions.index', $this->question));
+    $response->assertViewHas('questions');
+    $this->assertEquals($response['questions']->count(), Question::all()->count());
+  }
+
   public function test_users_cannot_delete_questions()
   {
     $response = $this->actingAs($this->user)->delete(route('questions.destroy', $this->question));
@@ -118,9 +151,9 @@ class QuestionTest extends TestCase
     $this->assertFalse(Question::where(['id'=> $this->question->id])->exists());
   }
 
-  public function test_redirects_to_home_page_after_deleting()
+  public function test_redirects_to_question_index_page_after_deleting()
   {
     $response = $this->actingAs($this->admin)->delete(route('questions.destroy', $this->question));
-    $response->assertRedirect(route('home'));
+    $response->assertRedirect(route('questions.index'));
   }
  }

@@ -17,8 +17,8 @@
             @can('viewAny', App\Church::class)
               <a class="btn btn-primary" href="{{ route('churches.index') }}">Churches</a>
             @endcan
-            @can('create', App\Question::class)
-              <a class="btn btn-primary" href="{{ route('questions.create') }}">Add a Question</a>
+            @can('viewAny', App\Question::class)
+              <a class="btn btn-primary" href="{{ route('questions.index') }}">Questions</a>
             @endcan
             @can('viewAny', App\Survey::class)
               <a class="btn btn-primary" href="{{ route('surveys.index') }}">Surveys</a>
